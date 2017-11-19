@@ -1,7 +1,6 @@
-<!DOCTYPE html>
 <html>
 <head>
- <meta charset="utf-8">
+<meta charset="utf-8">
 <title>Poly Jam test</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <script src="./Tone.js"></script>
@@ -35,64 +34,93 @@ socket.on('clientsIDS', function(data) { // Users list stuff
 	var myListPos = data.indexOf(myId);			// Group % 3 for now
 	playTeam =  myListPos % 3;
 });
-
+    
+var cutoffPos = 500 ;
 var oscillators = [];
 var bassFreq = 32;
-Tone.context.latencyHint = 'interactive'
+Tone.context.latencyHint = "balanced";  // "balanced" "playback" "interactive"
 
-	var filter = new Tone.Filter(300,"lowpass",-24).toMaster();
+	var filter = new Tone.Filter(1,"lowpass",-24).toMaster();
 	var reverb = new Tone.JCReverb(0.8).connect(filter);
 	var vibrato = new Tone.Vibrato(2, 0.8).connect(reverb);
-	var delay = new Tone.FeedbackDelay(0.200, 0.4).connect(vibrato);
+	var delay = new Tone.FeedbackDelay(0.200, 0.6).connect(vibrato);
 	
 filter.Q.value = 5;
-filter.gain.value = 2;	
-reverb.wet.value = 0.9;
+filter.gain.value = 1.5;	
+reverb.wet.value = 0.8;
 
-		for (var i = 0; i < 8; i++){
-			oscillators.push(new Tone.Oscillator({
-				"frequency" : bassFreq * i,
-				"type" : "sawtooth10" ,
-				"volume" : -Infinity,
-				"detune" : Math.random() * 30 - 15,
+	for (var i = 0; i < 4; i++){
+		oscillators.push(new Tone.Oscillator({
+			"frequency" : bassFreq * i,
+			"type" : "sawtooth10" ,
+			"volume" : -Infinity,
+			"detune" : Math.random() * 10,
 			}).start().connect(delay));
 		}
-	var lfo2= new Tone.LFO("4hz",100,1000).stop();
-	var lfo = new Tone.LFO(0.03,0.0,50).stop();
-		lfo.connect(vibrato.frequency);
-		lfo2.connect(filter.frequency);
-		vibrato.frequency.value = 0;
-		vibrato.depth.value = 0;
-	Interface.Slider({
+    var lfo2Range = 500;
+	var lfo2= new Tone.LFO("4hz",cutoffPos,lfo2Range).stop();
+    lfo2.connect(filter.frequency);
+     
+
+setTimeout(function(){						//User Filter actions
+	if(playTeam === 0){
+		oscillators.forEach(function(osc, i){
+		osc.type = "sine";
+		document.getElementById("acc").innerHTML = "You are A Sine wave";
+		});
+		}
+	if(playTeam === 1){
+		oscillators.forEach(function(osc){
+		osc.type = "sawtooth10";
+		document.getElementById("acc").innerHTML = "You are A Saw wave!";
+		});
+		}
+	if(playTeam === 2){
+		oscillators.forEach(function(osc){
+		osc.type = "square";
+		document.getElementById("acc").innerHTML = "You are a Square Wave!";
+		});
+		}			
+	},500);
+Interface.Slider({
 			name : "Pitch",
 			min : 0.5,
 			max : 3.0,
+            initial : 1,
 			value : 1,
 			drag : function(value){
-				oscillators.forEach(function(osc, i){
+				
 				if(playTeam === 0){
-					osc.frequency.rampTo(Math.round((bassFreq * i * value)*8), 0.03);
-					console.log(osc.frequency.value+" hz");
-					}
-				if(playTeam === 1){
-					osc.frequency.rampTo(bassFreq * i * value, 0.03);
-					}
-				if(playTeam === 2){
-					osc.frequency.rampTo(2*bassFreq * i * value, 0.03);
-					}						
+                    oscillators.forEach(function(osc, i){
+					osc.frequency.rampTo(4*(bassFreq * i * value), 0.2);
 				});
-			},
-		});	
+					}
+                if(playTeam === 1){
+                        oscillators.forEach(function(osc, i){
+					       osc.frequency.rampTo(bassFreq * i * value, 0.2);
+				            });
+				}
+                if(playTeam === 2){
+                      oscillators.forEach(function(osc, i){
+					osc.frequency.rampTo(2*(bassFreq * i * value), 0.2);
+				});
+                }
+ }
+    });
+   
 	Interface.Slider({
-			param : "frequency",
-			name : "freq",
 			tone : filter,
+            param : "frequency",
 			axis : "x",
-			min : 80,
+            initial: 100,
+			min : 40,
 			max : 20000,
 			exp : 3,
 			drag : function(value){
-				
+                 cutoffPos = filter.frequency.value;
+                lfo2.min = cutoffPos;
+                lfo2.max =cutoffPos+lfo2Range;
+               
 			},
 		});
 	Interface.Slider({
@@ -106,7 +134,9 @@ reverb.wet.value = 0.9;
 			initial : 0,
 			drag : function(value){
 				vibrato.depth.value = value / 30;
-				console.log("AM Freq "+vibrato.frequency.value + " depth :"+ vibrato.depth.value);
+				 delay.delayTime.rampTo(value/30,0.4);
+                delay.feedback.rampTo((value/30,0.1)+0.4);
+              
 			},
 		});
 	Interface.Button({
@@ -116,7 +146,7 @@ reverb.wet.value = 0.9;
 			key : 32, //spacebar
 			start : function(){
 				oscillators.forEach(function(osc){
-					osc.volume.rampTo(-30, 1);
+					osc.volume.rampTo(-30, 0.3);
 				});
 			},
 			end : function(){
@@ -126,19 +156,14 @@ reverb.wet.value = 0.9;
 			},
 		});
 	Interface.Button({
-			text : "lfo off",
+			text :       "lfo off",
 			activeText : "lfo on",
-			type : "toggle",
-			key : 32, //spacebar
+			type :        "toggle",
 			start : function(){
-					lfo.start();
-					lfo2.start();
+                   	 lfo2.start();
 			},
 			end : function(){
-					
-					lfo.stop();
-					lfo2.stop();
-					
+                 lfo2.stop();
 			},
 		});
     Interface.Slider({
@@ -168,26 +193,6 @@ reverb.wet.value = 0.9;
    var calc = (Math.round10(10 + aX,-2) *100);
 }
 ///////////////////////////////*/
-setTimeout(function(){				//User Filter actions
-	if(playTeam === 0){
-		oscillators.forEach(function(osc, i){
-		osc.type = "sine";
-		document.getElementById("acc").innerHTML = "You are A Sine wave";
-		});
-		}
-	if(playTeam === 1){
-		oscillators.forEach(function(osc){
-		osc.type = "sawtooth10";
-		document.getElementById("acc").innerHTML = "You are A Saw wave!";
-		});
-		}
-	if(playTeam === 2){
-		oscillators.forEach(function(osc){
-		osc.type = "square";
-		document.getElementById("acc").innerHTML = "You are a Square Wave!";
-		});
-		}			
-		},1000);
 </script>
 </body>
 </html>

@@ -10,7 +10,7 @@ server.listen(8000);
 app.use(express.static(__dirname + '/node_modules'));  
 app.use(express.static(__dirname + '/public')); 
 app.get('/', function(req, res,next) {  
-    res.sendFile(__dirname + '/index.html');
+res.sendFile(__dirname + '/index.html');
 });
 
 io.on('connection', function (socket){
@@ -22,9 +22,11 @@ io.on('connection', function (socket){
 		var gone = myClients.indexOf(socket.id);
 		myClients.splice(gone,1); // this method works perfectly for now
 		console.log("conected " + myClients);
+        clientsNbr = myClients.length;
+        socket.emit('clientsInfo', clientsNbr);	//CLients information sent to all the peers
+		socket.emit('clientsIDS', myClients);
 	});
 		clientsNbr = myClients.length;
 		socket.emit('clientsInfo', clientsNbr);	//CLients information sent to all the peers
-		 socket.emit('clientsIDS', myClients);
-		 
+		socket.emit('clientsIDS', myClients);	 
 });
