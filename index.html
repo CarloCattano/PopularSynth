@@ -20,12 +20,25 @@
 <div id="Title">Multi Synth Network fun</div>
 <div id="acc">  Waiting Your Role</div>
 </div>
-
 <script>
-
-var socket = io('http://192.168.0.2:8000');
+var serverIP= "192.168.0.2";
+var socket = io('http://'+serverIP+':8000');
 var playTeam ;
 var myId;
+var cutoffPos = 500 ;
+var oscillators = [];
+var bassFreq = 32;
+
+var filter = new Tone.Filter(1,"lowpass",-24).toMaster();
+var reverb = new Tone.JCReverb(0.8).connect(filter);
+var vibrato = new Tone.Vibrato(2, 0.8).connect(reverb);
+var delay = new Tone.FeedbackDelay(0.200, 0.6).connect(vibrato);
+
+filter.Q.value = 5;
+filter.gain.value = 1.5;	
+reverb.wet.value = 0.8;
+    
+Tone.context.latencyHint = "interactive";  // "balanced" "playback" "interactive"
 
 socket.on('connect', () => {			// Instance ID
  myId = socket.id;   					
@@ -34,21 +47,7 @@ socket.on('clientsIDS', function(data) { // Users list stuff
 	var myListPos = data.indexOf(myId);			// Group % 3 for now
 	playTeam =  myListPos % 3;
 });
-    
-var cutoffPos = 500 ;
-var oscillators = [];
-var bassFreq = 32;
-Tone.context.latencyHint = "balanced";  // "balanced" "playback" "interactive"
-
-	var filter = new Tone.Filter(1,"lowpass",-24).toMaster();
-	var reverb = new Tone.JCReverb(0.8).connect(filter);
-	var vibrato = new Tone.Vibrato(2, 0.8).connect(reverb);
-	var delay = new Tone.FeedbackDelay(0.200, 0.6).connect(vibrato);
-	
-filter.Q.value = 5;
-filter.gain.value = 1.5;	
-reverb.wet.value = 0.8;
-
+        
 	for (var i = 0; i < 4; i++){
 		oscillators.push(new Tone.Oscillator({
 			"frequency" : bassFreq * i,
@@ -57,8 +56,9 @@ reverb.wet.value = 0.8;
 			"detune" : Math.random() * 10,
 			}).start().connect(delay));
 		}
-    var lfo2Range = 500;
-	var lfo2= new Tone.LFO("4hz",cutoffPos,lfo2Range).stop();
+    
+var lfo2Range = 500;
+var lfo2= new Tone.LFO("4hz",cutoffPos,lfo2Range).stop();
     lfo2.connect(filter.frequency);
      
 
@@ -89,7 +89,6 @@ Interface.Slider({
             initial : 1,
 			value : 1,
 			drag : function(value){
-				
 				if(playTeam === 0){
                     oscillators.forEach(function(osc, i){
 					osc.frequency.rampTo(4*(bassFreq * i * value), 0.2);
@@ -105,9 +104,8 @@ Interface.Slider({
 					osc.frequency.rampTo(2*(bassFreq * i * value), 0.2);
 				});
                 }
- }
+        }
     });
-   
 	Interface.Slider({
 			tone : filter,
             param : "frequency",
@@ -129,13 +127,13 @@ Interface.Slider({
 			tone : vibrato,
 			axis : "x",
 			min : 0,
-			max : 30,
+			max : 15,
 			exp : 1,
 			initial : 0,
 			drag : function(value){
-				vibrato.depth.value = value / 30;
-				 delay.delayTime.rampTo(value/30,0.4);
-                delay.feedback.rampTo((value/30,0.1)+0.4);
+				vibrato.depth.value = value / 15;
+				 delay.delayTime.rampTo(value/15,0.4);
+                 delay.feedback.rampTo((value/15,0.1)+0.4);
               
 			},
 		});
@@ -174,6 +172,18 @@ Interface.Slider({
 			value : 1,
 			drag : function(value){
 				lfo2.frequency.rampTo(value, 0.08);
+			},
+		});	
+     Interface.Slider({
+			name : "LFO Range",
+			min : 200,
+			max : 5000,
+			exp : 2.5,
+			value : 200,
+			drag : function(value){
+				lfo2Range = value;
+                lfo2.min = cutoffPos;
+                lfo2.max =cutoffPos+lfo2Range;
 			},
 		});	
 									/*// ACCxyz functions
