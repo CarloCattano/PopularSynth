@@ -180,7 +180,7 @@ html, body {
     background-color: black; }
   #Content #Explanation {
     position: relative;
-    padding: 15px;
+    padding: 8px;
     color: black;
     font-size: 14px;
     box-sizing: border-box;
@@ -233,7 +233,7 @@ html, body {
     border-radius: 50%;
     z-index: 1;
     margin-top: -2px;
-    border: 2px solid white;
+    border: 3px solid white;
     cursor: -webkit-grab; }
     #Content .Dragger #Name {
       width: 100%;
@@ -248,7 +248,7 @@ html, body {
     color: red; }
   #Content .Dragger.is-pointer-down {
     cursor: -webkit-grabbing;
-    background-color: deepskyblue; }
+    background-color: white; }
     #Content .Dragger.is-pointer-down #Name {
       color: yellow; }
   #Content .Axis {
@@ -265,7 +265,7 @@ html, body {
   #Content #yAxis {
     height: calc(100% - 6px); }
   #Content .Button {
-    width: 100%;
+    width: 40%;
     margin-top: 3px;
     height: 90px;
     background-color: black;
@@ -282,7 +282,7 @@ html, body {
     background-color: blue; }
   #Content .Button.Toggle.Active {
     box-sizing: border-box;
-    border: 3px solid black;
+    border: 7px solid yellow;
     line-height: 84px;
     color: black;
     background-color: yellow; }

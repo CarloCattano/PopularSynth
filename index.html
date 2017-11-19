@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Poly Jam test</title>
+<title>Popular Multi user Synthesizer Server</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <script src="./Tone.js"></script>
 <script src="/socket.io/socket.io.js"></script>
@@ -10,6 +10,7 @@
 <script src="https://tonejs.github.io/Logo/build/Logo.js"></script>
 <script src="./scripts/StartAudioContext.js"></script>
 <script src="./scripts/Interface.js"></script>
+<script type="text/javascript" src="./p5.js"></script>
 <link rel="stylesheet" type="text/css" href="./examples.css">	
 <script>
 // jshint ignore: start
@@ -18,7 +19,7 @@
 <body>
 <div id="Content" class="FullScreen">
 <div id="Title">Multi Synth Network fun</div>
-<div id="acc">  Waiting Your Role</div>
+<div id="Explanation">  Waiting Your Role</div>
 </div>
 <script>
 var serverIP= "192.168.0.2";
@@ -29,13 +30,13 @@ var cutoffPos = 500 ;
 var oscillators = [];
 var bassFreq = 32;
 
-var filter = new Tone.Filter(1,"lowpass",-24).toMaster();
-var reverb = new Tone.JCReverb(0.8).connect(filter);
+var filter1 = new Tone.Filter(1,"lowpass",-24).toMaster();
+var reverb = new Tone.JCReverb(0.8).connect(filter1);
 var vibrato = new Tone.Vibrato(2, 0.8).connect(reverb);
 var delay = new Tone.FeedbackDelay(0.200, 0.6).connect(vibrato);
-
-filter.Q.value = 5;
-filter.gain.value = 1.5;	
+ 
+filter1.Q.value = 5;
+filter1.gain.value = 1.5;	
 reverb.wet.value = 0.8;
     
 Tone.context.latencyHint = "interactive";  // "balanced" "playback" "interactive"
@@ -59,26 +60,26 @@ socket.on('clientsIDS', function(data) { // Users list stuff
     
 var lfo2Range = 500;
 var lfo2= new Tone.LFO("4hz",cutoffPos,lfo2Range).stop();
-    lfo2.connect(filter.frequency);
+    lfo2.connect(filter1.frequency);
      
 
-setTimeout(function(){						//User Filter actions
+setTimeout(function(){						//User filter1 actions
 	if(playTeam === 0){
 		oscillators.forEach(function(osc, i){
 		osc.type = "sine";
-		document.getElementById("acc").innerHTML = "You are A Sine wave";
+		document.getElementById("Explanation").innerHTML = "You are A Sine wave";
 		});
 		}
 	if(playTeam === 1){
 		oscillators.forEach(function(osc){
 		osc.type = "sawtooth10";
-		document.getElementById("acc").innerHTML = "You are A Saw wave!";
+		document.getElementById("Explanation").innerHTML = "You are A Saw wave!";
 		});
 		}
 	if(playTeam === 2){
 		oscillators.forEach(function(osc){
 		osc.type = "square";
-		document.getElementById("acc").innerHTML = "You are a Square Wave!";
+		document.getElementById("Explanation").innerHTML = "You are a Square Wave!";
 		});
 		}			
 	},500);
@@ -107,7 +108,7 @@ Interface.Slider({
         }
     });
 	Interface.Slider({
-			tone : filter,
+			tone : filter1,
             param : "frequency",
 			axis : "x",
             initial: 100,
@@ -115,7 +116,7 @@ Interface.Slider({
 			max : 20000,
 			exp : 3,
 			drag : function(value){
-                 cutoffPos = filter.frequency.value;
+                 cutoffPos = filter1.frequency.value;
                 lfo2.min = cutoffPos;
                 lfo2.max =cutoffPos+lfo2Range;
                
@@ -203,6 +204,8 @@ Interface.Slider({
    var calc = (Math.round10(10 + aX,-2) *100);
 }
 ///////////////////////////////*/
+
 </script>
+    <script src="./sketch.js"></script>
 </body>
 </html>
