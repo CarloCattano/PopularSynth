@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Popular Multi user Synthesizer Server</title>
+<title>PopularSynth v0.2</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <script src="./Tone.js"></script>
 <script src="/socket.io/socket.io.js"></script>
@@ -18,12 +18,12 @@
 </head>
 <body>
 <div id="Content" class="FullScreen">
-<div id="Title">Multi Synth Network fun</div>
+<div id="Title">Multi user Synth Network fun</div>
 <div id="Explanation">  Waiting Your Role</div>
 </div>
 <script>
-var serverIP= "192.168.0.2";
-var socket = io('http://'+serverIP+':8000');
+var serverIP = "192.168.0.109";
+var socket = io('http://'+ serverIP +':8000');
 var playTeam ;
 var myId;
 var cutoffPos = 500 ;
@@ -35,7 +35,7 @@ var reverb = new Tone.JCReverb(0.8).connect(filter1);
 var vibrato = new Tone.Vibrato(2, 0.8).connect(reverb);
 var delay = new Tone.FeedbackDelay(0.200, 0.6).connect(vibrato);
  
-filter1.Q.value = 5;
+filter1.Q.value = 1;
 filter1.gain.value = 1.5;	
 reverb.wet.value = 0.8;
     
@@ -82,7 +82,7 @@ setTimeout(function(){						//User filter1 actions
 		document.getElementById("Explanation").innerHTML = "You are a Square Wave!";
 		});
 		}			
-	},500);
+	},1000);
 Interface.Slider({
 			name : "Pitch",
 			min : 0.5,
@@ -114,11 +114,11 @@ Interface.Slider({
             initial: 100,
 			min : 40,
 			max : 20000,
-			exp : 3,
+			exp : 4,
 			drag : function(value){
                  cutoffPos = filter1.frequency.value;
                 lfo2.min = cutoffPos;
-                lfo2.max =cutoffPos+lfo2Range;
+                lfo2.max = cutoffPos + lfo2Range;
                
 			},
 		});
@@ -145,7 +145,7 @@ Interface.Slider({
 			key : 32, //spacebar
 			start : function(){
 				oscillators.forEach(function(osc){
-					osc.volume.rampTo(-30, 0.3);
+					osc.volume.rampTo(-28, 0.3);
 				});
 			},
 			end : function(){

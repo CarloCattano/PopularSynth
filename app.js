@@ -18,8 +18,8 @@ io.on('connection', function (socket){
 	myClients.push(socket.id);
 	console.log("conected " + myClients);
 	
-	socket.on('disconnect', function() {
-		var gone = myClients.indexOf(socket.id);
+    socket.on('disconnect', function() {
+        var gone = myClients.indexOf(socket.id);
 		myClients.splice(gone,1); // this method works perfectly for now
 		console.log("conected " + myClients);
         clientsNbr = myClients.length;
