@@ -1,129 +1,45 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Sonic Vibrations</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <script src="./Tone.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="./scripts/jquery.min.js"></script>
-    <script src="./scripts/draggabilly.js"></script>
-    <script src="./scripts/Interface.js"></script>
-    <script type="text/javascript" src="./p5.js"></script>
-    <link rel="stylesheet" type="text/css" href="./styles/examples.css">
-    <script src="./scripts/StartAudioContext.js"></script>
-    <script>
-        // jshint ignore: start
-    </script>
+    <title>SCS´s Template</title>
+    <script src="https://tonejs.github.io/build/Tone.js"></script>
 </head>
 <body>
 <div id="Content" class="FullScreen">
-    <div id="Title">Sonic Code Sea</div>
-    <div id="Explanation"> Waiting Your Role</div>
+    <div id="Title">Sonic Code Sessions</div>
+    <div id="Explanation"> Web Audio Synthesis</div>
 </div>
+<input  type="button" value="Stop" id="item">
+<input  type="button" value="Play" id="item2">
 <script>
+// LATENCY SETTINGS  
+Tone.context.latencyHint = "balanced";  // "balanced" "playback" "interactive"
 
-    Tone.context.latencyHint = "balanced";  // "balanced" "playback" "interactive"
+//FX AND SYNTH ROUTED 
+var delay = new Tone.FeedbackDelay("0.12",0.6).toMaster();
+var synth = new Tone.Synth().connect(delay);    //Our synth routed to the master or use connect(other)
 
-//Main Oscillators array
-    for (var i = 0; i < 4; i++) {
-        oscillators.push(new Tone.Oscillator({
-            "frequency": bassFreq * i,
-            "type": "sawtooth10",
-            "volume": -Infinity,
-            "detune": Math.random() * 10,}).start().connect(delay));
-    }
-/// LFO
-    var lfo2Range = 500;
-    var lfo2 = new Tone.LFO("4hz", cutoffPos, lfo2Range).stop();
-    lfo2.connect(filter1.frequency);        //LFO --> FILTER FREQ.
+// LITTLE PATTERN 
+var pattern = new Tone.Pattern(function(time, note){    
+    synth.triggerAttackRelease(note, 0.05);        //ENVELOPE
+}, ["C2", "C3", "G3", "A3","A#3","C4"]);    //NOTE LIST
+pattern.start(0);           //RUNS THE PATTERN
 
+///BUTTONS TO START AND STOP TRANSPORT
+document.getElementById("item").addEventListener("click", function(){
+    Tone.Transport.stop();
+});
+document.getElementById("item2").addEventListener("click", function(){
+    Tone.Transport.start();
+});
 
-
-
-Interface.Slider({
-        tone: filter1,
-        param: "frequency",
-        axis: "x",
-        initial: 10,
-        min: 10,
-        max: 20000,
-        exp: 5,
-        drag: function (value) {
-            cutoffPos = filter1.frequency.value;
-             lfo2range();
-        },
-    });
-Interface.Slider({
-        param: "frequency",
-        name: "AM",
-        tone: vibrato,
-        axis: "x",
-        min: 0,
-        max: 15,
-        exp: 1,
-        initial: 0,
-        drag: function (value) {
-            vibrato.depth.value = value / 15;
-            delay.delayTime.rampTo(value / 15, 0.2);
-            delay.feedback.rampTo(value / 15 - 0.1, 0.1);
-        },
-    });
-
-Interface.Button({
-        text: "Play",
-        activeText: "Stop",
-        type: "toggle",
-        key: 32, //spacebar
-        start: function () {
-            StartAudioContext(Tone.context);
-            oscillators.forEach(function (osc) {
-                osc.volume.rampTo(-28, 0.25);
-            });
-        },
-        end: function () {
-            oscillators.forEach(function (osc) {
-                osc.volume.rampTo(-Infinity, 0.25);
-            });
-        },
-    });
-Interface.Button({
-        text: "lfo off",
-        activeText: "lfo on",
-        type: "toggle",
-        start: function () {
-            lfo2.start();
-        },
-        end: function () {
-            lfo2.stop();
-        },
-    });
-Interface.Slider({
-        name: "Speed LFO",
-        min: 0.01,
-        max: 30,
-        exp: 2.5,
-        value: 1,
-        drag: function (value) {
-            lfo2.frequency.rampTo(value, 0.2);
-        },
-    });
-Interface.Slider({
-        name: "LFO Range",
-        min: 50,
-        max: 3000,
-        exp: 2.5,
-        value: 1500,
-        drag: function (value) {
-            lfo2Range = value;
-            lfo2range();
-        },
-    });
-function lfo2range(){
-            lfo2.min = cutoffPos - lfo2Range;
-            lfo2.max = cutoffPos + lfo2Range;
-            console.log(cutoffPos + " hz " + lfo2.min+" min" + lfo2.max + " max");
-
-        }
+/// START AUDIO FROM USER INPUT IMPORTANT!!! 
+document.documentElement.addEventListener( 
+  "mousedown", function(){
+    mouse_IsDown = true;
+    if (Tone.context.state !== 'running') {
+    Tone.context.resume();
+  }});
 </script>
 </body>
 </html>

@@ -21,10 +21,6 @@
     <div id="Explanation"> Waiting Your Role</div>
 </div>
 <script>
-
-    Tone.context.resume();
-
-
     var serverIP = "http://192.168.0.10:80"; //configure hosts.conf to add URL name.com
     var socket = io(serverIP);
     var playTeam;
@@ -34,6 +30,7 @@
     var oscillators = [];
     var bassFreq = 32;
 //// AUDIO MASTER
+    //var filter2 = new Tone.Filter(1, "lowpass", -24).toMaster();
     var filter1 = new Tone.Filter(1, "lowpass", -24).toMaster();
     var reverb = new Tone.JCReverb(0.8).connect(filter1);
     var vibrato = new Tone.Vibrato(2, 0.8).connect(reverb);
@@ -126,10 +123,10 @@ Interface.Slider({
         tone: filter1,
         param: "frequency",
         axis: "x",
-        initial: 10,
+        initial: 200,
         min: 10,
         max: 20000,
-        exp: 5,
+        exp: 3,
         drag: function (value) {
             cutoffPos = filter1.frequency.value;
              lfo2range();
@@ -157,7 +154,6 @@ Interface.Button({
         type: "toggle",
         key: 32, //spacebar
         start: function () {
-            StartAudioContext(Tone.context);
             oscillators.forEach(function (osc) {
                 osc.volume.rampTo(-28, 0.25);
             });
@@ -169,7 +165,7 @@ Interface.Button({
         },
     });
 Interface.Button({
-        text: "lfo off",
+        text: "Move",
         activeText: "lfo on",
         type: "toggle",
         start: function () {
@@ -177,6 +173,7 @@ Interface.Button({
         },
         end: function () {
             lfo2.stop();
+
         },
     });
 Interface.Slider({
@@ -192,7 +189,7 @@ Interface.Slider({
 Interface.Slider({
         name: "LFO Range",
         min: 50,
-        max: 3000,
+        max: 2000,
         exp: 2.5,
         value: 1500,
         drag: function (value) {
@@ -201,25 +198,34 @@ Interface.Slider({
         },
     });
 function lfo2range(){
-            lfo2.min = cutoffPos - lfo2Range;
+            lfo2.min = Math.abs(cutoffPos - lfo2Range);
             lfo2.max = cutoffPos + lfo2Range;
             console.log(cutoffPos + " hz " + lfo2.min+" min" + lfo2.max + " max");
-
         }
-/*// ACCxyz functions
+
+document.documentElement.addEventListener(
+  "mousedown", function(){
+    mouse_IsDown = true;
+    if (Tone.context.state !== 'running') {
+    Tone.context.resume();
+  }});
+/*
+// ACCxyz functions
 if (window.DeviceMotionEvent == undefined) {
 //No accelerometer is present. Use buttons.
-alert("no accelerometer");
+//alert("no accelerometer");
 }
 else {
-alert("accelerometer found");
+//alert("accelerometer found");
 window.addEventListener("devicemotion", accelerometerUpdate, true);
 }
 function accelerometerUpdate(e) {
 var aX = event.accelerationIncludingGravity.x*1;
 var aY = event.accelerationIncludingGravity.y*1;
 var aZ = event.accelerationIncludingGravity.z*1;
-var calc = (Math.round10(10 + aX,-2) *100);
+var mX = Math.round(Math.abs(aX)*100+80);
+document.getElementById("Explanation").innerHTML = mX;
+filter2.frequency.value = mX;
 }
 ///////////////////////////////*/
 </script>

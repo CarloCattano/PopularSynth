@@ -10,7 +10,6 @@
     <script src="./scripts/Interface.js"></script>
     <script type="text/javascript" src="./p5.js"></script>
     <link rel="stylesheet" type="text/css" href="./styles/examples.css">
-    <script src="./scripts/StartAudioContext.js"></script>
     <script>
         // jshint ignore: start
     </script>
@@ -23,7 +22,6 @@
      <div id="FXsliders"></div>
 </div>
 <script>
-
     var serverIP = "http://192.168.0.10:80"; //configure hosts.conf to add URL name.com
     var socket = io(serverIP);
     var playTeam;
@@ -42,7 +40,6 @@
 var lfo2Range = 500;
     var lfo2 = new Tone.LFO("4hz", cutoffPos, lfo2Range).stop();
     lfo2.connect(filter1.frequency);  
-
     Tone.context.latencyHint = "playback";  // "balanced" "playback" "interactive"
 //// SOCKETS CLIENT OPERATIONS
     socket.on('connect', () => {
@@ -107,23 +104,85 @@ Interface.Slider({
 Interface.Slider({
         parent : $("#FXsliders"),
         name: "LFO Range",
-        min: 50,
-        max: 3000,
-        exp: 2.5,
-        value: 1500,
+        min: 2,
+        max: 1000,
+        exp: 1,
+        value: 10,
         drag: function (value) {
             lfo2Range = value;
             lfo2range();
         },
     });
 function lfo2range(){
-            lfo2.min = cutoffPos - lfo2Range;
+            lfo2.min =  Math.abs(cutoffPos-lfo2Range);
             lfo2.max = cutoffPos + lfo2Range;
-            console.log(cutoffPos + " hz " + lfo2.min+" min" + lfo2.max + " max");
+            console.log(cutoffPos + " hz " + lfo2.min+" min " + lfo2.max + " max");
 
     }
 
+//the player
+        var player = new Tone.GrainPlayer({
+            "url" : "./audio/amb1.[mp3|ogg]",
+            "loop" : true,
+            "grainSize" : 0.1,
+            "overlap" : 0.05,
+        }).connect(delay);
+
+        console.log(player.url);
+document.documentElement.addEventListener(
+  "mousedown", function(){
+    mouse_IsDown = true;
+    if (Tone.context.state !== 'running') {
+    Tone.context.resume();
+  }});
+
+        // GUI //
+Interface.Loader();
+    Interface.Button({
+            text : "Start",
+            activeText : "Stop",
+            parent : $("#Sliders"),
+            type : "toggle",
+            start : function(){
+                player.start();
+            },
+            end : function(){
+                player.stop();
+            }
+        });
+    Interface.Slider({
+            param : "playbackRate",
+            name : "playbackRate",
+            parent : $("#Sliders"),
+            tone : player,
+            min : 0.5,
+            max : 2,
+        });
+    Interface.Slider({
+            param : "detune",
+            name : "detune",
+            parent : $("#Sliders"),
+            tone : player,
+            min : -1200,
+            max : 1200,
+        });
+    Interface.Slider({
+            param : "grainSize",
+            name : "grainSize",
+            parent : $("#Sliders"),
+            tone : player,
+            min : 0.01,
+            max : 0.2,
+        });
+    Interface.Slider({
+            param : "overlap",
+            name : "overlap",
+            parent : $("#Sliders"),
+            tone : player,
+            min : 0,
+            max : 0.2,
+        });
+
 </script>
-<script src="./next.js"></script>
 </body>
 </html>

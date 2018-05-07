@@ -15,15 +15,14 @@ $(function(){
 	// make all links open a new tab
 	$("a").attr("target", "_blank");
 	//mobile start
-		
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+		Interface.isMobile = true;
 		$("body").addClass("Mobile");
 		var element = $("<div>", {"id" : "MobileStart"}).appendTo("body");
 		var button = $("<div>").attr("id", "Button").text("Enter").appendTo(element);
 		StartAudioContext(Tone.context, button, function(){
 			element.remove();
 		});
-	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-	Interface.isMobile = true;
 	}
 });
 

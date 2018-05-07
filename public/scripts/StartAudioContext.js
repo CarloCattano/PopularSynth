@@ -63,9 +63,6 @@
 		this._bindedEnd = null
 		this._element = null
 	};
-    if (Tone.context.state !== 'running') {
-        Tone.context.resume();
-    }
 	//END TAP LISTENER/////////////////////////////////////////////////////////
 
 	/**
