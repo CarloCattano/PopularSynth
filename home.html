@@ -1,0 +1,69 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Sonic Vibrations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="./Tone.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./scripts/jquery.min.js"></script>
+    <script src="./scripts/draggabilly.js"></script>
+    <script src="./scripts/Interface.js"></script>
+    <script type="text/javascript" src="./p5.js"></script>
+    <link rel="stylesheet" type="text/css" href="./styles/examples.css">
+    <script src="./scripts/StartAudioContext.js"></script>
+    <script>
+        // jshint ignore: start
+    </script>
+</head>
+<body>
+<div id="Content" class="FullScreen">
+    <div id="Title">Sonic Code Sea</div>
+    <div id="Explanation"> Waiting Your Role</div>
+</div>
+<script>
+    var serverIP = "http://192.168.0.10:80"; //configure hosts.conf to add URL name.com
+    var socket = io(serverIP);
+    var playTeam;
+    var myId;
+    
+//// SOCKETS CLIENT OPERATIONS
+    socket.on('connect', () => {
+ 			myId = socket.id;
+		});
+  
+    socket.on('clientsIDS', function (data) { // Users list stuff
+        let myListPos = data.indexOf(myId);			// Group % 3 for now
+        playTeam = myListPos % 6;
+    });
+
+/// ASSIGNMENT FUNCTION ON STARTUP
+setTimeout(function(){
+    switch (playTeam) {
+        case 0:
+          window.location.href = "http://48hneukolln.spektrum.com/index.html";
+            break;
+        
+        case 1: 
+          window.location.href = "http://48hneukolln.spektrum.com/index.html";
+            break;
+        
+        case 2: 
+           window.location.href = "http://48hneukolln.spektrum.com/index.html";
+            break;
+        
+        case 3: 
+           window.location.href = "http://48hneukolln.spektrum.com/index2.html";
+            break;
+        
+        case 4: 
+           window.location.href = "http://48hneukolln.spektrum.com/index2.html";
+            break;
+        
+        case 5: 
+           window.location.href = "http://48hneukolln.spektrum.com/index2.html";
+            break;
+        }
+},500); // WAIT Xsecs to execute
+</script>
+</body>
+</html>
