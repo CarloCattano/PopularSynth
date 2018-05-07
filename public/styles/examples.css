@@ -289,6 +289,10 @@ html, body {
     border: 7px solid yellow;
     line-height: 84px;
     color: black;
+    width: 20%;
+     margin-top: 5px;
+    margin-bottom: 5px;
+     min-width: 150px;
     background-color: yellow; }
   #Content .Transport {
     width: 100%;
@@ -344,3 +348,12 @@ code {
 #Loading.Loaded {
   pointer-events: none;
   opacity: 0; }
+
+
+#Content .output {
+  position: absolute;
+  left: 50px;
+  padding: .5em;
+  background: blue;
+  color: white;
+}
