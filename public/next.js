@@ -1,6 +1,6 @@
 //the player
 		var player = new Tone.GrainPlayer({
-			"url" : "./audio/amb1.[mp3|ogg]",
+			"url" : "./audio/test.[mp3|ogg]",
 			"loop" : true,
 			"grainSize" : 0.1,
 			"overlap" : 0.05,
@@ -13,7 +13,7 @@ Interface.Loader();
 			parent : $("#Sliders"),
 			type : "toggle",
 			start : function(){
-				StartAudioContext(Tone.context);
+				
 				player.start();
 			},
 			end : function(){

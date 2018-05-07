@@ -23,6 +23,7 @@
      <div id="FXsliders"></div>
 </div>
 <script>
+
     var serverIP = "http://192.168.0.10:80"; //configure hosts.conf to add URL name.com
     var socket = io(serverIP);
     var playTeam;
@@ -53,7 +54,6 @@ var lfo2Range = 500;
         playTeam = myListPos % 3;
     });
 Interface.Loader();
-StartAudioContext(Tone.context,'#playButton');
 Interface.Slider({
         parent : $("#FXsliders"),
         tone: filter1,
@@ -125,6 +125,5 @@ function lfo2range(){
 
 </script>
 <script src="./next.js"></script>
-<script src="./sketch.js"></script>
 </body>
 </html>

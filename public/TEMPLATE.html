@@ -22,37 +22,7 @@
 </div>
 <script>
 
-    Tone.context.resume();
-
-
-    var serverIP = "http://192.168.0.10:80"; //configure hosts.conf to add URL name.com
-    var socket = io(serverIP);
-    var playTeam;
-    var myId;
-    
-    var cutoffPos = 500;
-    var oscillators = [];
-    var bassFreq = 32;
-//// AUDIO MASTER
-    var filter1 = new Tone.Filter(1, "lowpass", -24).toMaster();
-    var reverb = new Tone.JCReverb(0.8).connect(filter1);
-    var vibrato = new Tone.Vibrato(2, 0.8).connect(reverb);
-    var delay = new Tone.FeedbackDelay(0.200, 0.6).connect(vibrato);
-//// FX PARAMS
-    filter1.Q.value = 0.4;
-    filter1.gain.value = 0.35;
-    reverb.wet.value = 0.8;
-
     Tone.context.latencyHint = "balanced";  // "balanced" "playback" "interactive"
-//// SOCKETS CLIENT OPERATIONS
-    socket.on('connect', () => {
- 			myId = socket.id;
-		});
-  
-    socket.on('clientsIDS', function (data) { // Users list stuff
-        let myListPos = data.indexOf(myId);			// Group % 3 for now
-        playTeam = myListPos % 3;
-    });
 
 //Main Oscillators array
     for (var i = 0; i < 4; i++) {
@@ -67,61 +37,9 @@
     var lfo2 = new Tone.LFO("4hz", cutoffPos, lfo2Range).stop();
     lfo2.connect(filter1.frequency);        //LFO --> FILTER FREQ.
 
-/// ASSIGNMENT FUNCTION ON STARTUP
-setTimeout(function(){
-    switch (playTeam) {
-        case 0:
-            oscillators.forEach(function (osc, i) {
-                osc.type = "sine";
-                document.getElementById("Explanation").innerHTML = "You are A Sine wave";
-                });
-            break;
-        
-        case 1: 
-            oscillators.forEach(function (osc, i) {
-                osc.type = "sawtooth10";
-                document.getElementById("Explanation").innerHTML = "You are A Saw wave!";
-            });
-            break;
-        
-        case 2: 
-            oscillators.forEach(function (osc, i) {
-                osc.type = "square";
-                document.getElementById("Explanation").innerHTML = "You are a Square Wave!";
-            });
-            break;
-        }
-},500); // WAIT Xsecs to execute
 
-///INTERFACES
-Interface.Slider({
-            name: "Pitch",
-            min: 0.5,
-            max: 3.0,
-            initial: 1,
-            value: 1,
-        drag: function (value) {
-            switch (playTeam) {
-                case 0:
-                oscillators.forEach(function (osc, i) {
-                    osc.frequency.rampTo(4 * (bassFreq * i * value), 0.2);
-                });
-                 break;
-            
-            case 1:
-                oscillators.forEach(function (osc, i) {
-                    osc.frequency.rampTo(bassFreq * i * value, 0.2);
-                });
-                break;
-            
-             case 2:
-                oscillators.forEach(function (osc, i) {
-                    osc.frequency.rampTo(2 * (bassFreq * i * value), 0.2);
-                });
-                break;
-            }
-        }
-    }); 
+
+
 Interface.Slider({
         tone: filter1,
         param: "frequency",
@@ -206,22 +124,6 @@ function lfo2range(){
             console.log(cutoffPos + " hz " + lfo2.min+" min" + lfo2.max + " max");
 
         }
-/*// ACCxyz functions
-if (window.DeviceMotionEvent == undefined) {
-//No accelerometer is present. Use buttons.
-alert("no accelerometer");
-}
-else {
-alert("accelerometer found");
-window.addEventListener("devicemotion", accelerometerUpdate, true);
-}
-function accelerometerUpdate(e) {
-var aX = event.accelerationIncludingGravity.x*1;
-var aY = event.accelerationIncludingGravity.y*1;
-var aZ = event.accelerationIncludingGravity.z*1;
-var calc = (Math.round10(10 + aX,-2) *100);
-}
-///////////////////////////////*/
 </script>
 </body>
 </html>
