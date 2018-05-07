@@ -16,6 +16,7 @@ html, body {
   padding: 0px;
   margin: 0px;
   height: calc(100% - 4px);
+  background-color: #b1b1b1;
   font-family: "Inconsolata", monospace; }
 
 
@@ -233,7 +234,6 @@ html, body {
     border-radius: 50%;
     z-index: 1;
     margin-top: -2px;
-    border: 3px solid white;
     cursor: -webkit-grab; }
     #Content .Dragger #Name {
       width: 100%;
@@ -248,7 +248,7 @@ html, body {
     color: red; }
   #Content .Dragger.is-pointer-down {
     cursor: -webkit-grabbing;
-    background-color: white; }
+    background-color: #0099CC; }
     #Content .Dragger.is-pointer-down #Name {
       color: yellow; }
   #Content .Axis {
@@ -265,8 +265,12 @@ html, body {
   #Content #yAxis {
     height: calc(100% - 6px); }
   #Content .Button {
-    width: 40%;
-    margin-top: 3px;
+    width: 20%;
+    min-width: 150px;
+    display: inline-block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
     height: 90px;
     background-color: black;
     line-height: 90px;
