@@ -1,6 +1,6 @@
 # PopularSynth - A synth for the people
 
-Multi user Web-server based synth/audio generation tool
+Multi user Web synthesis experience.
 
 Each group of users gets a different role assigned with different Timber and characteristics.
 
