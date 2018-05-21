@@ -10,11 +10,13 @@
 <body>
 <div id="Content" class="FullScreen">
     <div id="Title">Sonic Code Sea</div>
-    <div id="Explanation"> Waiting Your Role</div>
+    <div id="Explanation"> 48h NEUKOLLN </div>
 </div>
 <script>
-    var serverIP = "http://192.168.0.10:80"; //configure hosts.conf to add URL name.com
-    var socket = io(serverIP);
+/// ROLE ASSIGNMENT SYSTEM MAST BE UPDATED PERHAPS....
+    var serverIP = "192.168.0.6";
+    var server = "http://"+serverIP+":80"; //configure hosts.conf to add URL name.com
+    var socket = io(server);
     var playTeam;
     var myId;
 //// SOCKETS CLIENT OPERATIONS
@@ -23,36 +25,28 @@
 		});
     socket.on('clientsIDS', function (data) { // Users list stuff
         let myListPos = data.indexOf(myId);			// Group % 3 for now
-        playTeam = myListPos % 6;
+        playTeam = myListPos % 5;
     });
 /// ASSIGNMENT FUNCTION ON STARTUP
 setTimeout(function(){
     switch (playTeam) {
         case 0:
-          window.location.href = "http://192.168.0.10/Drone_synth.html";
+          window.location.href = "http://"+serverIP+"/Drone_synth.html";
             break;
-        
         case 1: 
-          window.location.href = "http://192.168.0.10/Granular_synth.html";
+          window.location.href ="http://"+serverIP+"/Drone_synth.html";
             break;
-        
         case 2: 
-           window.location.href = "http://192.168.0.10/Sampler.html";
+           window.location.href = "http://"+serverIP+"/Drone_synth.html";
             break;
-        
         case 3: 
-           window.location.href = "http://192.168.0.10/Granular_synth.html";
+           window.location.href = "http://"+serverIP+"/Granular_synth.html";
             break;
-        
         case 4: 
-           window.location.href = "http://192.168.0.10/Sampler.html";
-            break;
-        
-        case 5: 
-           window.location.href = "http://192.168.0.10/Drone_synth.html";
+           window.location.href = "http://"+serverIP+"/Sampler.html";
             break;
         }
-},500); // WAIT Xsecs to execute
+},250); // WAIT Xsecs to execute
 </script>
 </body>
 </html>

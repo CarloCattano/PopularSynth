@@ -44,6 +44,7 @@
 //// SOCKETS CLIENT OPERATIONS
     socket.on('connect', () => {
  			myId = socket.id;
+            console.log(myId);
 		});
   
     socket.on('clientsIDS', function (data) { // Users list stuff

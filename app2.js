@@ -13,7 +13,6 @@ app.use(express.static(__dirname + '/node_modules'));
 app.use(express.static(__dirname + '/public'));
 
 
-
 io.on('connection', function (socket) {
     myClients.push(socket.id);
     socket.on('disconnect', function () {

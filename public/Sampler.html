@@ -23,7 +23,7 @@
      <div id="Sliders2"></div>
 </div>
 <script>
-    var serverIP = "http://192.168.0.10:80"; //configure hosts.conf to add URL name.com
+    var serverIP = "http://192.168.0.6:80"; //configure hosts.conf to add URL name.com
     var socket = io(serverIP);
     var playTeam;
     var myId;
@@ -39,6 +39,11 @@
     filter1.frequency.value = cutoffPos;
     reverb.wet.value = 0.7;
     Tone.context.latencyHint = "interactive";  // "balanced" "playback" "interactive"
+
+  socket.on('connect', () => {
+            myId = socket.id;
+            console.log("MysocketID : "+myId);
+        });
 
 //the player
         var Sampler = new Tone.Sampler({
@@ -139,7 +144,6 @@ Interface.Loader();
                 Sampler.triggerAttackRelease("A2",0.25);
             },
         });
-
     Interface.Slider({
             param : "frequency",
             name : "Filter",

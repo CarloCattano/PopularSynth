@@ -44,6 +44,7 @@ var lfo2Range = 500;
 //// SOCKETS CLIENT OPERATIONS
     socket.on('connect', () => {
  			myId = socket.id;
+            console.log("mysocketID : "+myId);
 		});
   
     socket.on('clientsIDS', function (data) { // Users list stuff
