@@ -25,16 +25,15 @@
     var socket = io(serverIP);
     var playTeam;
     var myId;
-    
     var cutoffPos = 500;
     var oscillators = [];
     var bassFreq = 32;
 //// AUDIO MASTER
-    //var filter2 = new Tone.Filter(1, "lowpass", -24).toMaster();
+   // var filter2 = new Tone.Filter(1, "lowpass", -24).toMaster();
     var filter1 = new Tone.Filter(1, "lowpass", -24).toMaster();
-    var reverb = new Tone.JCReverb(0.8).connect(filter1);
+    var reverb =  new Tone.JCReverb(0.8).connect(filter1);
     var vibrato = new Tone.Vibrato(0, 0.8).connect(reverb);
-    var delay = new Tone.FeedbackDelay(0.200, 0.6).connect(vibrato);
+    var delay =   new Tone.FeedbackDelay(0.200, 0.6).connect(vibrato);
 //// FX PARAMS
     filter1.Q.value = 0.4;
     filter1.gain.value = 0.35;
@@ -46,14 +45,11 @@
  			myId = socket.id;
             console.log("MysocketID : "+ myId);
 		});
-  
     socket.on('clientsIDS', function (data) { // Users list stuff
         let myListPos = data.indexOf(myId);			// Group % 3 for now
         playTeam = myListPos % 3;
     });
 
-//Main Oscillators array
-    
 /// LFO
     var lfo2Range = 500;
     var lfo2 = new Tone.LFO("4hz", cutoffPos, lfo2Range).stop();
@@ -73,6 +69,7 @@ setTimeout(function(){
               document.getElementById("Explanation").innerHTML = "You are A Sine wave";
             break;
         case 1: 
+                //  Main Oscillators array
             for (var i = 0; i < 4; i++) {
                 oscillators.push(new Tone.Oscillator({
             "frequency": bassFreq * i,
@@ -94,7 +91,7 @@ setTimeout(function(){
                 document.getElementById("Explanation").innerHTML = "You are a Square Wave!";
             break;
         }
-},150); // WAIT Xsecs to execute
+},250); // WAIT Xsecs to execute
 
 ///INTERFACES
 Interface.Slider({
@@ -149,8 +146,8 @@ Interface.Slider({
         initial: 0,
         drag: function (value) {
             vibrato.depth.value = value / 15;
-            delay.delayTime.rampTo(value / 15, 0.2);
-            delay.feedback.rampTo(value / 15 - 0.1, 0.1);
+            delay.delayTime.rampTo(value / 15, 0.5);
+            delay.feedback.rampTo(value / 15 - 0.1, 0.5);
         },
     });
 Interface.Button({
@@ -186,7 +183,7 @@ Interface.Slider({
         exp: 2.5,
         value: 1,
         drag: function (value) {
-            lfo2.frequency.rampTo(value, 0.2);
+            lfo2.frequency.rampTo(value, 0.1);
         },
     });
 Interface.Slider({
@@ -206,6 +203,8 @@ function lfo2range(){
            // console.log(cutoffPos + " hz " + lfo2.min+" min" + lfo2.max + " max");
         }
 
+
+/// IMPORTANT to ensure audio context initialization on laptop and desktop computers
 document.documentElement.addEventListener(
   "mousedown", function(){
     mouse_IsDown = true;
@@ -215,8 +214,7 @@ document.documentElement.addEventListener(
 /*
 // ACCxyz functions
 if (window.DeviceMotionEvent == undefined) {
-//No accelerometer is present. Use buttons.
-//alert("no accelerometer");
+filter2.frequency.value = 20000;
 }
 else {
 //alert("accelerometer found");
@@ -224,12 +222,14 @@ window.addEventListener("devicemotion", accelerometerUpdate, true);
 }
 function accelerometerUpdate(e) {
 var aX = event.accelerationIncludingGravity.x*1;
-var aY = event.accelerationIncludingGravity.y*1;
+/* var aY = event.accelerationIncludingGravity.y*1;
 var aZ = event.accelerationIncludingGravity.z*1;
-var mX = Math.round(Math.abs(aX)*100+80);
+
+var mX = Math.round(aX*100+80);
 document.getElementById("Explanation").innerHTML = mX;
-filter2.frequency.value = mX;
+filter2.frequency.rampTo(mX,0.2);
 }
+
 ///////////////////////////////*/
 </script>
 </body>
