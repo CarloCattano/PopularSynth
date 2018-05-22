@@ -11,7 +11,9 @@
 <div id="Content" class="FullScreen">
     <div id="Title">Sonic Code Sea</div>
     <div id="Explanation"> 48h NEUKOLLN </div>
+    <div if="Title" style="font-size:40px">...Wating for your sound...</div>
 </div>
+
 <script>
 /// ROLE ASSIGNMENT SYSTEM MAST BE UPDATED PERHAPS....
     var serverIP = "192.168.0.6";
@@ -27,7 +29,7 @@
         let myListPos = data.indexOf(myId);			// Group % 3 for now
         playTeam = myListPos % 5;
     });
-/// ASSIGNMENT FUNCTION ON STARTUP
+/// REDIRECTION ASSIGNMENT FUNCTION ON STARTUP
 setTimeout(function(){
     switch (playTeam) {
         case 0:
@@ -46,7 +48,7 @@ setTimeout(function(){
            window.location.href = "http://"+serverIP+"/Sampler.html";
             break;
         }
-},250); // WAIT Xsecs to execute
+},500); // WAIT Xsecs to execute
 </script>
 </body>
 </html>

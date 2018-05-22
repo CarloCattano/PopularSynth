@@ -12,16 +12,17 @@ app.get('/', function (req, res, next) {
 app.use(express.static(__dirname + '/node_modules'));
 app.use(express.static(__dirname + '/public'));
 
-
 io.on('connection', function (socket) {
     myClients.push(socket.id);
     socket.on('disconnect', function () {
-        var gone = myClients.indexOf(socket.id);
+
+        let gone = myClients.indexOf(socket.id);
         myClients.splice(gone, 1); // this method works perfectly for now
-             console.log("disconected " + gone);   // listen for connected clients
+            //console.log("disconected " + gone);   // listen for connected clients
         clientsNbr = myClients.length;
-            socket.emit('clientsInfo', clientsNbr);	//CLients information sent to all the peers
-            socket.emit('clientsIDS', myClients);
+            console.log("conected " + myClients + " "+ clientsNbr + " clients");
+        socket.emit('clientsInfo', clientsNbr);	//CLients information sent to all the peers
+        socket.emit('clientsIDS', myClients);
     });
     clientsNbr = myClients.length;
         socket.emit('clientsInfo', clientsNbr);	//CLients information sent to all the peers
