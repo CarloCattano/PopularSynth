@@ -5,6 +5,10 @@ var io = require('socket.io')(server);
 
 var myClients = [];
 
+function logConnectedClientsCount () {
+  console.log("Connected " + myClients + " "+ myClients.length + " clients");
+}
+
 server.listen(8080);
 app.get('/', function (req, res, next) {
     res.sendFile(__dirname + '/home.html');
@@ -18,9 +22,9 @@ io.on('connection', function (socket) {
         let gone = myClients.indexOf(socket.id);
         myClients.splice(gone, 1); // this method works perfectly for now
         //console.log("disconected " + gone);   // listen for connected clients
-        console.log("conected " + myClients + " "+ myClients.length + " clients");
+        logConnectedClientsCount();
         socket.emit('clientsIDS', myClients);
     });
     socket.emit('clientsIDS', myClients);
-    console.log("conected " + myClients + " "+  myClients.length + " clients");
+    logConnectedClientsCount()
 });
