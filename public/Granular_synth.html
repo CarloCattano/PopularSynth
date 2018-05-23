@@ -4,7 +4,6 @@
     <title>Sonic Vibrations</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <script src="./Tone.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
     <script src="./scripts/jquery.min.js"></script>
     <script src="./scripts/draggabilly.js"></script>
     <script src="./scripts/Interface.js"></script>
@@ -26,7 +25,6 @@
 </div>
 <script>
     var serverIP = "http://192.168.0.6:80"; //configure hosts.conf to add URL name.com
-    var socket = io(serverIP);
     var cutoffPos = 500;
 //// AUDIO MASTER
     var filter1 = new Tone.Filter(500, "lowpass", -24).toMaster();
