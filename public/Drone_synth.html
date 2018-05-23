@@ -17,9 +17,14 @@
     <div id="Explanation"> Waiting Your Role</div>
 </div>
 <script>
+    function roleFromCurrentUrl () {
+      const match = /(sin|saw|square)+$/.exec(window.location)
+      return match ? match[0] : 'sin'
+    }
+
     var serverIP = "http://192.168.0.6:80"; //configure hosts.conf to add URL name.com
     var socket = io(serverIP);
-    var playTeam;
+    var playTeam = roleFromCurrentUrl();
     var myId;
     var cutoffPos = 500;
     var oscillators = [];
@@ -43,7 +48,7 @@
 		});
     socket.on('clientsIDS', function (data) { // Users list stuff
         let myListPos = data.indexOf(myId);			// Group % 3 for now
-        playTeam = myListPos % 3;
+        // playTeam = myListPos % 3;
     });
 
 /// LFO
@@ -54,7 +59,7 @@
 /// ASSIGNMENT FUNCTION ON STARTUP
 setTimeout(function(){
     switch (playTeam) {
-        case 0:
+        case 'sin':
         for (var i = 0; i < 4; i++) {
         oscillators.push(new Tone.Oscillator({
             "frequency": bassFreq * i,
@@ -64,7 +69,7 @@ setTimeout(function(){
                         };
               document.getElementById("Explanation").innerHTML = "You are A Sine wave";
             break;
-        case 1:
+        case 'saw':
                 //  Main Oscillators array
             for (var i = 0; i < 4; i++) {
                 oscillators.push(new Tone.Oscillator({
@@ -76,7 +81,7 @@ setTimeout(function(){
                 document.getElementById("Explanation").innerHTML = "You are A Saw wave!";
             break;
 
-        case 2:
+        case 'square':
             for (var i = 0; i < 4; i++) {
                 oscillators.push(new Tone.Oscillator({
             "frequency": bassFreq * i,
@@ -98,19 +103,19 @@ Interface.Slider({
             value: 1,
         drag: function (value) {
             switch (playTeam) {
-                case 0:
+                case 'sin':
                 oscillators.forEach(function (osc, i) {
                     osc.frequency.rampTo(4 * (bassFreq * i * value), 0.2);
                 });
                  break;
 
-            case 1:
+            case 'saw':
                 oscillators.forEach(function (osc, i) {
                     osc.frequency.rampTo(bassFreq * i * value, 0.2);
                 });
                 break;
 
-             case 2:
+             case 'square':
                 oscillators.forEach(function (osc, i) {
                     osc.frequency.rampTo(2 * (bassFreq * i * value), 0.2);
                 });
