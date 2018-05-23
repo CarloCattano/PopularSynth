@@ -4,7 +4,6 @@
     <title>Sonic Vibrations</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <script src="./Tone.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
     <script src="./scripts/jquery.min.js"></script>
     <script src="./scripts/draggabilly.js"></script>
     <script src="./scripts/Interface.js"></script>
@@ -23,8 +22,6 @@
      <div id="Sliders2"></div>
 </div>
 <script>
-    var serverIP = "http://192.168.0.6:80"; //configure hosts.conf to add URL name.com
-    var socket = io(serverIP);
     var cutoffPos = 500;
 //// AUDIO MASTER
     var reverb = new Tone.JCReverb(0.5).toMaster();
@@ -37,9 +34,6 @@
     filter1.frequency.value = cutoffPos;
     reverb.wet.value = 0.7;
     Tone.context.latencyHint = "interactive";  // "balanced" "playback" "interactive"
-
-  socket.on('connect', () => {
-        });
 
 //the player
         var Sampler = new Tone.Sampler({
