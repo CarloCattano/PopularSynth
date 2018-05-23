@@ -3,17 +3,12 @@
     <meta charset="utf-8">
     <title>Sonic Vibrations</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <script src="./Tone.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="./scripts/jquery.min.js"></script>
-    <script src="./scripts/draggabilly.js"></script>
-    <script src="./scripts/Interface.js"></script>
-    <script type="text/javascript" src="./p5.js"></script>
-    <link rel="stylesheet" type="text/css" href="./styles/examples.css">
-    <script src="./scripts/StartAudioContext.js"></script>
-    <script>
-        // jshint ignore: start
-    </script>
+    <script src="/Tone.js"></script>
+    <script src="/scripts/jquery.min.js"></script>
+    <script src="/scripts/draggabilly.js"></script>
+    <script src="/scripts/Interface.js"></script>
+    <link rel="stylesheet" type="text/css" href="/styles/examples.css">
+    <script src="/scripts/StartAudioContext.js"></script>
 </head>
 <body>
 <div id="Content" class="FullScreen">
@@ -21,9 +16,12 @@
     <div id="Explanation"> Waiting Your Role</div>
 </div>
 <script>
-    var serverIP = "http://192.168.0.6:80"; //configure hosts.conf to add URL name.com
-    var socket = io(serverIP);
-    var playTeam;
+    function roleFromCurrentUrl () {
+      const match = /(sin|saw|square)+$/.exec(window.location)
+      return match ? match[0] : 'sin'
+    }
+
+    var playTeam = roleFromCurrentUrl();
     var myId;
     var cutoffPos = 500;
     var oscillators = [];
@@ -40,15 +38,6 @@
     reverb.wet.value = 0.8;
 
     Tone.context.latencyHint = "balanced";  // "balanced" "playback" "interactive"
-//// SOCKETS CLIENT OPERATIONS
-    socket.on('connect', () => {
- 			myId = socket.id;
-            console.log("MysocketID : "+ myId);
-		});
-    socket.on('clientsIDS', function (data) { // Users list stuff
-        let myListPos = data.indexOf(myId);			// Group % 3 for now
-        playTeam = myListPos % 3;
-    });
 
 /// LFO
     var lfo2Range = 500;
@@ -56,42 +45,41 @@
     lfo2.connect(filter1.frequency);        //LFO --> FILTER FREQ.
 
 /// ASSIGNMENT FUNCTION ON STARTUP
-setTimeout(function(){
     switch (playTeam) {
-        case 0:
+      case 'sin':
         for (var i = 0; i < 4; i++) {
-        oscillators.push(new Tone.Oscillator({
+          oscillators.push(new Tone.Oscillator({
             "frequency": bassFreq * i,
             "type": "sine",
             "volume": -Infinity,
             "detune": Math.random() * 10,}).start().connect(delay));
-                        };
-              document.getElementById("Explanation").innerHTML = "You are A Sine wave";
-            break;
-        case 1: 
-                //  Main Oscillators array
-            for (var i = 0; i < 4; i++) {
-                oscillators.push(new Tone.Oscillator({
+        };
+        document.getElementById("Explanation").innerHTML = "You are A Sine wave";
+        break;
+
+      case 'saw':
+        //  Main Oscillators array
+        for (var i = 0; i < 4; i++) {
+          oscillators.push(new Tone.Oscillator({
             "frequency": bassFreq * i,
             "type": "sawtooth10",
             "volume": -Infinity,
             "detune": Math.random() * 10,}).start().connect(delay));
-                        };
-                document.getElementById("Explanation").innerHTML = "You are A Saw wave!";
-            break;
-        
-        case 2: 
-            for (var i = 0; i < 4; i++) {
-                oscillators.push(new Tone.Oscillator({
-            "frequency": bassFreq * i,
-            "type": "square",
-            "volume": -Infinity,
-            "detune": Math.random() * 10,}).start().connect(delay));
-                        };
-                document.getElementById("Explanation").innerHTML = "You are a Square Wave!";
-            break;
-        }
-},250); // WAIT Xsecs to execute
+        };
+        document.getElementById("Explanation").innerHTML = "You are A Saw wave!";
+        break;
+
+      case 'square':
+          for (var i = 0; i < 4; i++) {
+            oscillators.push(new Tone.Oscillator({
+              "frequency": bassFreq * i,
+              "type": "square",
+              "volume": -Infinity,
+              "detune": Math.random() * 10,}).start().connect(delay));
+          };
+          document.getElementById("Explanation").innerHTML = "You are a Square Wave!";
+          break;
+      }
 
 ///INTERFACES
 Interface.Slider({
@@ -102,26 +90,26 @@ Interface.Slider({
             value: 1,
         drag: function (value) {
             switch (playTeam) {
-                case 0:
+                case 'sin':
                 oscillators.forEach(function (osc, i) {
                     osc.frequency.rampTo(4 * (bassFreq * i * value), 0.2);
                 });
                  break;
-            
-            case 1:
+
+            case 'saw':
                 oscillators.forEach(function (osc, i) {
                     osc.frequency.rampTo(bassFreq * i * value, 0.2);
                 });
                 break;
-            
-             case 2:
+
+             case 'square':
                 oscillators.forEach(function (osc, i) {
                     osc.frequency.rampTo(2 * (bassFreq * i * value), 0.2);
                 });
                 break;
             }
         }
-    }); 
+    });
 Interface.Slider({
         tone: filter1,
         param: "frequency",

@@ -4,54 +4,37 @@
     <title>Sonic Vibrations</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <script src="./Tone.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
     <script src="./scripts/jquery.min.js"></script>
     <script src="./scripts/draggabilly.js"></script>
     <script src="./scripts/Interface.js"></script>
-    <script type="text/javascript" src="./p5.js"></script>
     <link rel="stylesheet" type="text/css" href="./styles/examples.css">
     <script src="./scripts/StartAudioContext.js"></script>
-    <script>
-        // jshint ignore: start
-    </script>
 </head>
 <body>
 <div id="Content" class="FullScreen">
     <div id="Title">48h sound</div>
     <div id="Explanation"> Granular</div>
     <div id="Sliders" oninput="outputUpdate(value)"></div>
-    <div id="FXsliders"></div>  
+    <div id="FXsliders"></div>
   <output for="test" id="volume">50</output>
 </div>
 </div>
 <script>
-    var serverIP = "http://192.168.0.6:80"; //configure hosts.conf to add URL name.com
-    var socket = io(serverIP);
-    var playTeam;
-    var myId;
     var cutoffPos = 500;
-//// AUDIO MASTER
+    //// AUDIO MASTER
     var filter1 = new Tone.Filter(500, "lowpass", -24).toMaster();
     var reverb = new Tone.JCReverb(0.5).connect(filter1);
     var delay = new Tone.FeedbackDelay(0.25, 0).connect(reverb);
-//// FX PARAMS
+    //// FX PARAMS
     filter1.Q.value = 0.3;
     filter1.gain.value = 0.35;
     reverb.wet.value = 0.5;
 
-var lfo2Range = 500;
+    var lfo2Range = 500;
     var lfo2 = new Tone.LFO("4hz", cutoffPos, lfo2Range).stop();
-    lfo2.connect(filter1.frequency);  
+    lfo2.connect(filter1.frequency);
     Tone.context.latencyHint = "playback";  // "balanced" "playback" "interactive"
-//// SOCKETS CLIENT OPERATIONS
-    socket.on('connect', () => {
- 			myId = socket.id;
-		});
-  
-    socket.on('clientsIDS', function (data) { // Users list stuff
-        let myListPos = data.indexOf(myId);			// Group % 3 for now
-        playTeam = myListPos % 3;
-    });
+
 Interface.Loader();
 Interface.Slider({
         parent : $("#FXsliders"),
@@ -183,7 +166,7 @@ document.documentElement.addEventListener(
 
 function outputUpdate(value) {
   var output = document.querySelector("#volume");
-    output.value = value;
+  output.value = value;
   output.style.top = value + 'px';
 }
 </script>

@@ -1,32 +1,44 @@
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
-var io = require('socket.io')(server);
 
-var myClients = [];
+function* infiniteIteration (array) {
+  let i = -1
+  while (true) {
+    ++i
+    yield array[i % array.length]
+  }
+}
 
-server.listen(80);
+const port = process.env.NODE_PORT || 80
+
+const synthRoutes = [
+  '/drone/sin',
+  '/drone/saw',
+  '/drone/square',
+  '/granular',
+  '/sampler'
+]
+
+const synthRoute = infiniteIteration(synthRoutes)
+
 app.get('/', function (req, res, next) {
-    res.sendFile(__dirname + '/home.html');
+  res.redirect(synthRoute.next().value)
 });
+app.get('/drone', function (req, res, next) {
+    res.sendFile(__dirname + '/public/Drone_synth.html');
+});
+app.get('/drone/:role', function (req, res, next) {
+    res.sendFile(__dirname + '/public/Drone_synth.html');
+});
+app.get('/granular', function (req, res, next) {
+    res.sendFile(__dirname + '/public/Granular_synth.html');
+});
+app.get('/sampler', function (req, res, next) {
+    res.sendFile(__dirname + '/public/Sampler.html');
+});
+
 app.use(express.static(__dirname + '/node_modules'));
 app.use(express.static(__dirname + '/public'));
 
-io.on('connection', function (socket) {
-    myClients.push(socket.id);
-    socket.on('disconnect', function () {
-
-        let gone = myClients.indexOf(socket.id);
-        myClients.splice(gone, 1); // this method works perfectly for now
-            //console.log("disconected " + gone);   // listen for connected clients
-        clientsNbr = myClients.length;
-            console.log("conected " + myClients + " "+ clientsNbr + " clients");
-        socket.emit('clientsInfo', clientsNbr);	//CLients information sent to all the peers
-        socket.emit('clientsIDS', myClients);
-    });
-    clientsNbr = myClients.length;
-        socket.emit('clientsInfo', clientsNbr);	//CLients information sent to all the peers
-        socket.emit('clientsIDS', myClients);
-        console.log("conected " + myClients + " "+ clientsNbr + " clients");
-
-});
+server.listen(port);
