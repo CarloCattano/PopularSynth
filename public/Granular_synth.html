@@ -27,7 +27,6 @@
 <script>
     var serverIP = "http://192.168.0.6:80"; //configure hosts.conf to add URL name.com
     var socket = io(serverIP);
-    var playTeam;
     var myId;
     var cutoffPos = 500;
 //// AUDIO MASTER
@@ -50,7 +49,6 @@ var lfo2Range = 500;
 
     socket.on('clientsIDS', function (data) { // Users list stuff
         let myListPos = data.indexOf(myId);			// Group % 3 for now
-        playTeam = myListPos % 3;
     });
 Interface.Loader();
 Interface.Slider({
