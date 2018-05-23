@@ -45,7 +45,6 @@
     lfo2.connect(filter1.frequency);        //LFO --> FILTER FREQ.
 
 /// ASSIGNMENT FUNCTION ON STARTUP
-setTimeout(function(){
     switch (playTeam) {
         case 'sin':
         for (var i = 0; i < 4; i++) {
@@ -80,7 +79,6 @@ setTimeout(function(){
                 document.getElementById("Explanation").innerHTML = "You are a Square Wave!";
             break;
         }
-},250); // WAIT Xsecs to execute
 
 ///INTERFACES
 Interface.Slider({
