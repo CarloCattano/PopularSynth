@@ -6,7 +6,7 @@ var io = require('socket.io')(server);
 var myClients = [];
 
 function logConnectedClientsCount () {
-  console.log("Connected " + myClients + " "+ myClients.length + " clients");
+  console.log(`Connected ${myClients} ${myClients.length} clients`)
 }
 
 server.listen(8080);
