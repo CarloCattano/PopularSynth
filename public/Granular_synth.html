@@ -41,9 +41,6 @@ var lfo2Range = 500;
     var lfo2 = new Tone.LFO("4hz", cutoffPos, lfo2Range).stop();
     lfo2.connect(filter1.frequency);
     Tone.context.latencyHint = "playback";  // "balanced" "playback" "interactive"
-//// SOCKETS CLIENT OPERATIONS
-    socket.on('connect', () => {
-		});
 
 Interface.Loader();
 Interface.Slider({
