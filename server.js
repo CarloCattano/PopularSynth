@@ -13,7 +13,7 @@ server.listen(8080);
 app.get('/', function (req, res, next) {
     res.sendFile(__dirname + '/home.html');
 });
-app.get('/drone', function (req, res, next) {
+app.get('/drone/:role', function (req, res, next) {
     res.sendFile(__dirname + '/public/Drone_synth.html');
 });
 app.get('/granular', function (req, res, next) {
