@@ -47,9 +47,6 @@ var lfo2Range = 500;
  			myId = socket.id;
 		});
 
-    socket.on('clientsIDS', function (data) { // Users list stuff
-        let myListPos = data.indexOf(myId);			// Group % 3 for now
-    });
 Interface.Loader();
 Interface.Slider({
         parent : $("#FXsliders"),
