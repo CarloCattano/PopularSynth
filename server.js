@@ -2,7 +2,8 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 
-server.listen(8080);
+const port = process.env.NODE_PORT || 80
+server.listen(port);
 
 app.get('/', function (req, res, next) {
     res.sendFile(__dirname + '/home.html');
