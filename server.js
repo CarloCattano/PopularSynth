@@ -18,11 +18,9 @@ io.on('connection', function (socket) {
         let gone = myClients.indexOf(socket.id);
         myClients.splice(gone, 1); // this method works perfectly for now
         //console.log("disconected " + gone);   // listen for connected clients
-        clientsNbr = myClients.length;
-        console.log("conected " + myClients + " "+ clientsNbr + " clients");
+        console.log("conected " + myClients + " "+ myClients.length + " clients");
         socket.emit('clientsIDS', myClients);
     });
-    clientsNbr = myClients.length;
     socket.emit('clientsIDS', myClients);
-    console.log("conected " + myClients + " "+ clientsNbr + " clients");
+    console.log("conected " + myClients + " "+  myClients.length + " clients");
 });
