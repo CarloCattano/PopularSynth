@@ -5,7 +5,7 @@ var io = require('socket.io')(server);
 
 var myClients = [];
 
-server.listen(80);
+server.listen(8080);
 app.get('/', function (req, res, next) {
     res.sendFile(__dirname + '/home.html');
 });
