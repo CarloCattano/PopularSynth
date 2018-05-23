@@ -25,7 +25,6 @@
 <script>
     var serverIP = "http://192.168.0.6:80"; //configure hosts.conf to add URL name.com
     var socket = io(serverIP);
-    var myId;
     var cutoffPos = 500;
 //// AUDIO MASTER
     var reverb = new Tone.JCReverb(0.5).toMaster();
@@ -40,8 +39,6 @@
     Tone.context.latencyHint = "interactive";  // "balanced" "playback" "interactive"
 
   socket.on('connect', () => {
-            myId = socket.id;
-            console.log("MysocketID : "+myId);
         });
 
 //the player
