@@ -68,7 +68,7 @@ setTimeout(function(){
                         };
               document.getElementById("Explanation").innerHTML = "You are A Sine wave";
             break;
-        case 1: 
+        case 1:
                 //  Main Oscillators array
             for (var i = 0; i < 4; i++) {
                 oscillators.push(new Tone.Oscillator({
@@ -79,8 +79,8 @@ setTimeout(function(){
                         };
                 document.getElementById("Explanation").innerHTML = "You are A Saw wave!";
             break;
-        
-        case 2: 
+
+        case 2:
             for (var i = 0; i < 4; i++) {
                 oscillators.push(new Tone.Oscillator({
             "frequency": bassFreq * i,
@@ -107,13 +107,13 @@ Interface.Slider({
                     osc.frequency.rampTo(4 * (bassFreq * i * value), 0.2);
                 });
                  break;
-            
+
             case 1:
                 oscillators.forEach(function (osc, i) {
                     osc.frequency.rampTo(bassFreq * i * value, 0.2);
                 });
                 break;
-            
+
              case 2:
                 oscillators.forEach(function (osc, i) {
                     osc.frequency.rampTo(2 * (bassFreq * i * value), 0.2);
@@ -121,7 +121,7 @@ Interface.Slider({
                 break;
             }
         }
-    }); 
+    });
 Interface.Slider({
         tone: filter1,
         param: "frequency",
