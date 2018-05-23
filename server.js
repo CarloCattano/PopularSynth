@@ -3,7 +3,6 @@ var app = express();
 var server = require('http').createServer(app);
 
 const port = process.env.NODE_PORT || 80
-server.listen(port);
 
 app.get('/', function (req, res, next) {
     res.sendFile(__dirname + '/home.html');
@@ -23,3 +22,5 @@ app.get('/sampler', function (req, res, next) {
 
 app.use(express.static(__dirname + '/node_modules'));
 app.use(express.static(__dirname + '/public'));
+
+server.listen(port);
