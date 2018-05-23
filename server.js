@@ -20,11 +20,9 @@ io.on('connection', function (socket) {
         //console.log("disconected " + gone);   // listen for connected clients
         clientsNbr = myClients.length;
         console.log("conected " + myClients + " "+ clientsNbr + " clients");
-        socket.emit('clientsInfo', clientsNbr);	//CLients information sent to all the peers
         socket.emit('clientsIDS', myClients);
     });
     clientsNbr = myClients.length;
-    socket.emit('clientsInfo', clientsNbr);	//CLients information sent to all the peers
     socket.emit('clientsIDS', myClients);
     console.log("conected " + myClients + " "+ clientsNbr + " clients");
 });
