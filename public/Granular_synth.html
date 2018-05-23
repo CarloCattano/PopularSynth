@@ -21,16 +21,16 @@
 </div>
 <script>
     var cutoffPos = 500;
-//// AUDIO MASTER
+    //// AUDIO MASTER
     var filter1 = new Tone.Filter(500, "lowpass", -24).toMaster();
     var reverb = new Tone.JCReverb(0.5).connect(filter1);
     var delay = new Tone.FeedbackDelay(0.25, 0).connect(reverb);
-//// FX PARAMS
+    //// FX PARAMS
     filter1.Q.value = 0.3;
     filter1.gain.value = 0.35;
     reverb.wet.value = 0.5;
 
-var lfo2Range = 500;
+    var lfo2Range = 500;
     var lfo2 = new Tone.LFO("4hz", cutoffPos, lfo2Range).stop();
     lfo2.connect(filter1.frequency);
     Tone.context.latencyHint = "playback";  // "balanced" "playback" "interactive"
@@ -166,7 +166,7 @@ document.documentElement.addEventListener(
 
 function outputUpdate(value) {
   var output = document.querySelector("#volume");
-    output.value = value;
+  output.value = value;
   output.style.top = value + 'px';
 }
 </script>
