@@ -47,36 +47,37 @@
 /// ASSIGNMENT FUNCTION ON STARTUP
     switch (playTeam) {
       case 'sin':
-      for (var i = 0; i < 4; i++) {
-      oscillators.push(new Tone.Oscillator({
-          "frequency": bassFreq * i,
-          "type": "sine",
-          "volume": -Infinity,
-          "detune": Math.random() * 10,}).start().connect(delay));
-                      };
-            document.getElementById("Explanation").innerHTML = "You are A Sine wave";
-          break;
+        for (var i = 0; i < 4; i++) {
+          oscillators.push(new Tone.Oscillator({
+            "frequency": bassFreq * i,
+            "type": "sine",
+            "volume": -Infinity,
+            "detune": Math.random() * 10,}).start().connect(delay));
+        };
+        document.getElementById("Explanation").innerHTML = "You are A Sine wave";
+        break;
+
       case 'saw':
-              //  Main Oscillators array
-          for (var i = 0; i < 4; i++) {
-              oscillators.push(new Tone.Oscillator({
-          "frequency": bassFreq * i,
-          "type": "sawtooth10",
-          "volume": -Infinity,
-          "detune": Math.random() * 10,}).start().connect(delay));
-                      };
-              document.getElementById("Explanation").innerHTML = "You are A Saw wave!";
-          break;
+        //  Main Oscillators array
+        for (var i = 0; i < 4; i++) {
+          oscillators.push(new Tone.Oscillator({
+            "frequency": bassFreq * i,
+            "type": "sawtooth10",
+            "volume": -Infinity,
+            "detune": Math.random() * 10,}).start().connect(delay));
+        };
+        document.getElementById("Explanation").innerHTML = "You are A Saw wave!";
+        break;
 
       case 'square':
           for (var i = 0; i < 4; i++) {
-              oscillators.push(new Tone.Oscillator({
-          "frequency": bassFreq * i,
-          "type": "square",
-          "volume": -Infinity,
-          "detune": Math.random() * 10,}).start().connect(delay));
-                      };
-              document.getElementById("Explanation").innerHTML = "You are a Square Wave!";
+            oscillators.push(new Tone.Oscillator({
+              "frequency": bassFreq * i,
+              "type": "square",
+              "volume": -Infinity,
+              "detune": Math.random() * 10,}).start().connect(delay));
+          };
+          document.getElementById("Explanation").innerHTML = "You are a Square Wave!";
           break;
       }
 
