@@ -4,7 +4,6 @@
     <title>Sonic Vibrations</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <script src="/Tone.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
     <script src="/scripts/jquery.min.js"></script>
     <script src="/scripts/draggabilly.js"></script>
     <script src="/scripts/Interface.js"></script>
@@ -22,8 +21,6 @@
       return match ? match[0] : 'sin'
     }
 
-    var serverIP = "http://192.168.0.6:80"; //configure hosts.conf to add URL name.com
-    var socket = io(serverIP);
     var playTeam = roleFromCurrentUrl();
     var myId;
     var cutoffPos = 500;
@@ -41,15 +38,6 @@
     reverb.wet.value = 0.8;
 
     Tone.context.latencyHint = "balanced";  // "balanced" "playback" "interactive"
-//// SOCKETS CLIENT OPERATIONS
-    socket.on('connect', () => {
- 			myId = socket.id;
-            console.log("MysocketID : "+ myId);
-		});
-    socket.on('clientsIDS', function (data) { // Users list stuff
-        let myListPos = data.indexOf(myId);			// Group % 3 for now
-        // playTeam = myListPos % 3;
-    });
 
 /// LFO
     var lfo2Range = 500;
