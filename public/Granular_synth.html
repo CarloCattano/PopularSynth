@@ -20,7 +20,7 @@
     <div id="Title">48h sound</div>
     <div id="Explanation"> Granular</div>
     <div id="Sliders" oninput="outputUpdate(value)"></div>
-    <div id="FXsliders"></div>  
+    <div id="FXsliders"></div>
   <output for="test" id="volume">50</output>
 </div>
 </div>
@@ -41,13 +41,13 @@
 
 var lfo2Range = 500;
     var lfo2 = new Tone.LFO("4hz", cutoffPos, lfo2Range).stop();
-    lfo2.connect(filter1.frequency);  
+    lfo2.connect(filter1.frequency);
     Tone.context.latencyHint = "playback";  // "balanced" "playback" "interactive"
 //// SOCKETS CLIENT OPERATIONS
     socket.on('connect', () => {
  			myId = socket.id;
 		});
-  
+
     socket.on('clientsIDS', function (data) { // Users list stuff
         let myListPos = data.indexOf(myId);			// Group % 3 for now
         playTeam = myListPos % 3;
