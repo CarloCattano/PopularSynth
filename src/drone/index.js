@@ -1,17 +1,12 @@
 import Tone from 'tone'
 
-function roleFromCurrentUrl () {
-  const match = /(sin|saw|square)+$/.exec(window.location)
-  return match ? match[0] : 'sin'
-}
-
-export default () => {
+export default (role) => {
   function lfo2range(){
     lfo2.min = Math.abs(cutoffPos - lfo2Range);
     lfo2.max = cutoffPos + lfo2Range;
   }
 
-  var playTeam = roleFromCurrentUrl();
+  var playTeam = /(sin|saw|square)/.exec(role) ? role : 'sin';
   var myId;
   var cutoffPos = 500;
   var oscillators = [];

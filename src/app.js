@@ -2,10 +2,13 @@ import droneSynth from './drone'
 import granularSynth from './granular'
 import samplerSynth from './sampler'
 
-// TODO There is probably a better, more Webpack-ish way to expose entry points
-window.droneSynth = droneSynth
-
 const synths = [{
+  re: /\/drone(?:\/(.*))?$/,
+  build: match => {
+    droneSynth(match[1])
+  }
+},
+{
   re: /\/granular$/,
   build: granularSynth
 }, {
@@ -16,8 +19,7 @@ window.loadSynthFromUrl = url => {
   synths.find(synth => {
     const match = synth.re.exec(url)
     if (match) {
-      debugger
-      synth.build(match.groups)
+      synth.build(match)
       return true
     }
     return false
