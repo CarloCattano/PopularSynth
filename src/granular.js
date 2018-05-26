@@ -90,7 +90,7 @@ export default () => {
           "grainSize" : 0.1,
           "overlap" : 0.05,
       }).connect(delay);
-  debugger
+
   player.volume.value = -18;
       // GUI //
   Interface.Loader();
@@ -115,7 +115,9 @@ export default () => {
           min : 0.2,
           max : 4,
            drag: function (value) {
-              outputUpdate(value);
+             var output = document.querySelector("#volume");
+             output.value = value;
+             output.style.top = value + 'px';
            },
       });
   Interface.Slider({
@@ -142,10 +144,4 @@ export default () => {
           min : 0,
           max : 0.2,
       });
-
-  function outputUpdate(value) {
-  var output = document.querySelector("#volume");
-  output.value = value;
-  output.style.top = value + 'px';
-  }
 }
