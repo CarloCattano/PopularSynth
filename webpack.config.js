@@ -23,4 +23,14 @@ module.exports = [{
     }]
   },
   devtool: 'sourcemap'
+}, {
+  performance: {
+    hints: false
+  },
+  entry: './src/app.js',
+  output: {
+    filename: 'app.js',
+    path: path.join(__dirname, 'dist')
+  },
+  devtool: 'sourcemap'
 }]
