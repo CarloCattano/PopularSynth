@@ -49,4 +49,6 @@ app.get('/sampler', function (req, res, next) {
     res.sendFile(samplerSynthPath);
 });
 
+app.use(express.static(__dirname))
+
 server.listen(port);

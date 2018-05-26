@@ -1,3 +1,4 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const nodeExternals = require('webpack-node-externals')
 const path = require('path')
 
@@ -13,6 +14,14 @@ module.exports = [{
     __filename: false
   },
   target: 'node',
+  plugins: [
+    new CopyWebpackPlugin([
+      'public/scripts/jquery.min.js',
+      'public/scripts/draggabilly.js',
+      'public/scripts/Interface.js',
+      'public/styles/examples.css'
+    ])
+  ],
   module: {
     rules: [{
       test: /\.(html)$/,
