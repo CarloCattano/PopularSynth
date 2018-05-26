@@ -1,6 +1,17 @@
-var express = require('express');
+import express from 'express'
+import http from 'http'
+import path from 'path'
+
+import droneSynth from '../public/Drone_synth.html'
+import granularSynth from '../public/Granular_synth.html'
+import samplerSynth from '../public/Sampler.html'
+
+const droneSynthPath = path.join(__dirname, droneSynth)
+const granularSynthPath = path.join(__dirname, granularSynth)
+const samplerSynthPath = path.join(__dirname, samplerSynth)
+
 var app = express();
-var server = require('http').createServer(app);
+var server = http.createServer(app);
 
 function* infiniteIteration (array) {
   let i = -1
@@ -26,19 +37,16 @@ app.get('/', function (req, res, next) {
   res.redirect(synthRoute.next().value)
 });
 app.get('/drone', function (req, res, next) {
-    res.sendFile(__dirname + '/public/Drone_synth.html');
+    res.sendFile(droneSynthPath);
 });
 app.get('/drone/:role', function (req, res, next) {
-    res.sendFile(__dirname + '/public/Drone_synth.html');
+    res.sendFile(droneSynthPath);
 });
 app.get('/granular', function (req, res, next) {
-    res.sendFile(__dirname + '/public/Granular_synth.html');
+    res.sendFile(granularSynthPath);
 });
 app.get('/sampler', function (req, res, next) {
-    res.sendFile(__dirname + '/public/Sampler.html');
+    res.sendFile(samplerSynthPath);
 });
-
-app.use(express.static(__dirname + '/node_modules'));
-app.use(express.static(__dirname + '/public'));
 
 server.listen(port);
