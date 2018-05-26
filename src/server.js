@@ -2,7 +2,7 @@ import express from 'express'
 import http from 'http'
 import path from 'path'
 
-import synthTemplate from './sampler/index.html'
+import synthTemplate from './index.html'
 
 const synthUrl = path.join(__dirname, synthTemplate)
 

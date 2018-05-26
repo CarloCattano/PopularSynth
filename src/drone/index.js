@@ -39,7 +39,7 @@ export default (role) => {
           "volume": -Infinity,
           "detune": Math.random() * 10,}).start().connect(delay));
       };
-      document.getElementById("Explanation").innerHTML = "You are A Sine wave";
+      $('#Explanation').text('Drone (Sin Wave)');
       break;
 
     case 'saw':
@@ -51,7 +51,7 @@ export default (role) => {
           "volume": -Infinity,
           "detune": Math.random() * 10,}).start().connect(delay));
       };
-      document.getElementById("Explanation").innerHTML = "You are A Saw wave!";
+      $('#Explanation').text('Drone (Saw Wave)');
       break;
 
     case 'square':
@@ -62,11 +62,13 @@ export default (role) => {
             "volume": -Infinity,
             "detune": Math.random() * 10,}).start().connect(delay));
         };
-        document.getElementById("Explanation").innerHTML = "You are a Square Wave!";
+        $('#Explanation').text('Drone (Square Wave)');
         break;
     }
 
   ///INTERFACES
+  $('#Title').text('48h sound')
+
   Interface.Slider({
           name: "Pitch",
           min: 0.5,

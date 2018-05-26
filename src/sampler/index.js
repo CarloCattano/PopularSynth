@@ -33,7 +33,7 @@ export default () => {
 
   // GUI //
 
-  $('#Title').text('Sonic Code Sea')
+  $('#Title').text('48h sound')
   $('#Explanation').text('Sampler')
 
   const sliders = document.createElement("div")

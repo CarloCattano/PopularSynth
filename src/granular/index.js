@@ -19,10 +19,6 @@ export default () => {
   lfo2.connect(filter1.frequency);
   Tone.context.latencyHint = "playback";  // "balanced" "playback" "interactive"
 
-  // <div id="Sliders"></div>
-  // <div id="FXsliders"></div>
-  // <output for="test" id="volume">50</output>
-
   // GUI
 
   $('#Title').text('48h sound')
