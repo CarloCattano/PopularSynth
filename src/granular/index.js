@@ -19,8 +19,24 @@ export default () => {
   lfo2.connect(filter1.frequency);
   Tone.context.latencyHint = "playback";  // "balanced" "playback" "interactive"
 
+  // <div id="Sliders"></div>
+  // <div id="FXsliders"></div>
+  // <output for="test" id="volume">50</output>
+
+  // GUI
+
+  $('#Title').text('48h sound')
+  $('#Explanation').text('Granular')
+
+  const sliders = document.createElement("div")
+  const fxSliders = document.createElement("div")
+  const output = document.createElement("output")
+  $('#Content').append(sliders)
+  $('#Content').append(fxSliders)
+  $('#Content').append(output)
+
   Interface.Slider({
-      parent : $("#FXsliders"),
+      parent : fxSliders,
       tone: filter1,
       param: "frequency",
       axis: "x",
@@ -34,7 +50,7 @@ export default () => {
   });
   Interface.Slider({
       name : delay,
-      parent : $("#FXsliders"),
+      parent : fxSliders,
       tone: delay,
       param: "feedback",
       axis: "x",
@@ -43,7 +59,7 @@ export default () => {
       max: 0.97,
   });
   Interface.Button({
-      parent : $("#FXsliders"),
+      parent : fxSliders,
       text: "lfo off",
       activeText: "lfo on",
       type: "toggle",
@@ -55,7 +71,7 @@ export default () => {
       },
   });
   Interface.Slider({
-       parent : $("#FXsliders"),
+       parent : fxSliders,
       name: "Speed LFO",
       min: 0.01,
       max: 30,
@@ -66,7 +82,7 @@ export default () => {
       },
   });
   Interface.Slider({
-      parent : $("#FXsliders"),
+      parent : fxSliders,
       name: "LFO Range",
       min: 2,
       max: 1000,
@@ -95,7 +111,7 @@ export default () => {
   Interface.Button({
           text :"play" ,
           activeText :"stop" ,
-          parent : $("#Sliders"),
+          parent : sliders,
           type : "toggle",
           start : function(){
               player.start();
@@ -108,12 +124,11 @@ export default () => {
   Interface.Slider({
           param : "playbackRate",
           name : "Speed",
-          parent : $("#Sliders"),
+          parent : sliders,
           tone : player,
           min : 0.2,
           max : 4,
            drag: function (value) {
-             var output = document.querySelector("#volume");
              output.value = value;
              output.style.top = value + 'px';
            },
@@ -121,7 +136,7 @@ export default () => {
   Interface.Slider({
           param : "detune",
           name : "detune",
-          parent : $("#Sliders"),
+          parent : sliders,
           tone : player,
           min : -1200,
           max : 1200,
@@ -129,7 +144,7 @@ export default () => {
   Interface.Slider({
           param : "grainSize",
           name : "grainSize",
-          parent : $("#Sliders"),
+          parent : sliders,
           tone : player,
           min : 0.01,
           max : 0.2,
@@ -137,7 +152,7 @@ export default () => {
   Interface.Slider({
           param : "overlap",
           name : "overlap",
-          parent : $("#Sliders"),
+          parent : sliders,
           tone : player,
           min : 0,
           max : 0.2,

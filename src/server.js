@@ -2,13 +2,9 @@ import express from 'express'
 import http from 'http'
 import path from 'path'
 
-import droneSynth from './drone/index.html'
-import granularSynth from './granular/index.html'
-import samplerSynth from './sampler/index.html'
+import synthTemplate from './sampler/index.html'
 
-const droneSynthPath = path.join(__dirname, droneSynth)
-const granularSynthPath = path.join(__dirname, granularSynth)
-const samplerSynthPath = path.join(__dirname, samplerSynth)
+const synthUrl = path.join(__dirname, synthTemplate)
 
 var app = express();
 var server = http.createServer(app);
@@ -37,16 +33,16 @@ app.get('/', function (req, res, next) {
   res.redirect(synthRoute.next().value)
 });
 app.get('/drone', function (req, res, next) {
-    res.sendFile(droneSynthPath);
+    res.sendFile(synthUrl);
 });
 app.get('/drone/:role', function (req, res, next) {
-    res.sendFile(droneSynthPath);
+    res.sendFile(synthUrl);
 });
 app.get('/granular', function (req, res, next) {
-    res.sendFile(granularSynthPath);
+    res.sendFile(synthUrl);
 });
 app.get('/sampler', function (req, res, next) {
-    res.sendFile(samplerSynthPath);
+    res.sendFile(synthUrl);
 });
 
 app.use(express.static(__dirname))

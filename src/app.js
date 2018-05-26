@@ -4,9 +4,11 @@ import samplerSynth from './sampler'
 
 // TODO There is probably a better, more Webpack-ish way to expose entry points
 window.droneSynth = droneSynth
-window.granularSynth = granularSynth
 
 const synths = [{
+  re: /\/granular$/,
+  build: granularSynth
+}, {
   re: /\/sampler$/,
   build: samplerSynth
 }]
