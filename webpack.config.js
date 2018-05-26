@@ -31,10 +31,11 @@ module.exports = [{
   },
   plugins: [
     new CopyWebpackPlugin([
-      'public/scripts/jquery.min.js',
-      'public/scripts/draggabilly.js',
-      'public/scripts/Interface.js',
-      'public/styles/examples.css'
+      'assets/vendors/draggabilly.js',
+      'assets/vendors/Interface.js',
+      'assets/vendors/jquery.min.js',
+      'assets/images/favicon.png',
+      'src/examples.css'
     ])
   ],
   module: {
