@@ -3,25 +3,15 @@ const nodeExternals = require('webpack-node-externals')
 const path = require('path')
 
 module.exports = [{
-  entry: './src/server.js',
-  externals: [nodeExternals()],
-  output: {
-    filename: 'server.js',
-    path: path.join(__dirname, 'dist')
+  entry: {
+    server: './src/server.js'
   },
+  externals: [nodeExternals()],
   node: {
     __dirname: false,
     __filename: false
   },
   target: 'node',
-  plugins: [
-    new CopyWebpackPlugin([
-      'public/scripts/jquery.min.js',
-      'public/scripts/draggabilly.js',
-      'public/scripts/Interface.js',
-      'public/styles/examples.css'
-    ])
-  ],
   module: {
     rules: [{
       test: /\.(html)$/,
@@ -36,10 +26,25 @@ module.exports = [{
   performance: {
     hints: false
   },
-  entry: './src/app.js',
-  output: {
-    filename: 'app.js',
-    path: path.join(__dirname, 'dist')
+  entry: {
+    app: './src/app.js'
+  },
+  plugins: [
+    new CopyWebpackPlugin([
+      'public/scripts/jquery.min.js',
+      'public/scripts/draggabilly.js',
+      'public/scripts/Interface.js',
+      'public/styles/examples.css'
+    ])
+  ],
+  module: {
+    rules: [{
+      test: /\.(mp3)$/,
+      use: [{
+        loader: 'file-loader',
+        options: {}
+      }]
+    }]
   },
   devtool: 'sourcemap'
 }]

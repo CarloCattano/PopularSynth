@@ -1,174 +1,27 @@
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Sonic Vibrations</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <script src="./Tone.js"></script>
-    <script src="./scripts/jquery.min.js"></script>
-    <script src="./scripts/draggabilly.js"></script>
-    <script src="./scripts/Interface.js"></script>
-    <link rel="stylesheet" type="text/css" href="./styles/examples.css">
-    <script src="./scripts/StartAudioContext.js"></script>
+  <meta charset="utf-8">
+  <title>Sonic Vibrations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <script src="/jquery.min.js"></script>
+  <script src="/draggabilly.js"></script>
+  <script src="/Interface.js"></script>
+  <link rel="stylesheet" type="text/css" href="/examples.css">
+  <script src="/app.js"></script>
 </head>
 <body>
-<div id="Content" class="FullScreen">
+  <div id="Content" class="FullScreen">
     <div id="Title">48h sound</div>
     <div id="Explanation"> Granular</div>
     <div id="Sliders" oninput="outputUpdate(value)"></div>
     <div id="FXsliders"></div>
-  <output for="test" id="volume">50</output>
-</div>
-</div>
-<script>
-    var cutoffPos = 500;
-    //// AUDIO MASTER
-    var filter1 = new Tone.Filter(500, "lowpass", -24).toMaster();
-    var reverb = new Tone.JCReverb(0.5).connect(filter1);
-    var delay = new Tone.FeedbackDelay(0.25, 0).connect(reverb);
-    //// FX PARAMS
-    filter1.Q.value = 0.3;
-    filter1.gain.value = 0.35;
-    reverb.wet.value = 0.5;
-
-    var lfo2Range = 500;
-    var lfo2 = new Tone.LFO("4hz", cutoffPos, lfo2Range).stop();
-    lfo2.connect(filter1.frequency);
-    Tone.context.latencyHint = "playback";  // "balanced" "playback" "interactive"
-
-Interface.Loader();
-Interface.Slider({
-        parent : $("#FXsliders"),
-        tone: filter1,
-        param: "frequency",
-        axis: "x",
-        initial: 10,
-        min: 60,
-        max: 20000,
-        exp: 5,
-        drag: function (value) {
-             lfo2range();
-        },
-    });
-Interface.Slider({
-        name : delay,
-        parent : $("#FXsliders"),
-        tone: delay,
-        param: "feedback",
-        axis: "x",
-        initial: 0,
-        min: 0,
-        max: 0.97,
-    });
-    Interface.Button({
-        parent : $("#FXsliders"),
-        text: "lfo off",
-        activeText: "lfo on",
-        type: "toggle",
-        start: function () {
-            lfo2.start();
-        },
-        end: function () {
-            lfo2.stop();
-        },
-    });
-Interface.Slider({
-         parent : $("#FXsliders"),
-        name: "Speed LFO",
-        min: 0.01,
-        max: 30,
-        exp: 2.5,
-        value: 1,
-        drag: function (value) {
-            lfo2.frequency.rampTo(value, 0.2);
-        },
-    });
-Interface.Slider({
-        parent : $("#FXsliders"),
-        name: "LFO Range",
-        min: 2,
-        max: 1000,
-        exp: 1,
-        value: 10,
-        drag: function (value) {
-            lfo2Range = value;
-            lfo2range();
-        },
-    });
-function lfo2range(){
-            lfo2.min =  Math.abs(cutoffPos-lfo2Range);
-            lfo2.max = cutoffPos + lfo2Range;
-           // console.log(cutoffPos + " hz " + lfo2.min+" min " + lfo2.max + " max");
+    <output for="test" id="volume">50</output>
+  </div>
+  <script>
+    window.onload = () => {
+      window.Interface = Interface
+      granularSynth()
     }
-//the player
-    var player = new Tone.GrainPlayer({
-            "url" : "./audio/amb1.[mp3|ogg]",
-            "loop" : true,
-            "grainSize" : 0.1,
-            "overlap" : 0.05,
-        }).connect(delay);
-        player.volume = -18;
-        // GUI //
-Interface.Loader();
-    Interface.Button({
-            text :"play" ,
-            activeText :"stop" ,
-            parent : $("#Sliders"),
-            type : "toggle",
-            start : function(){
-                player.start();
-            },
-            end : function(){
-                player.stop();
-            }
-        });
-
-    Interface.Slider({
-            param : "playbackRate",
-            name : "Speed",
-            parent : $("#Sliders"),
-            tone : player,
-            min : 0.2,
-            max : 4,
-             drag: function (value) {
-                outputUpdate(value);
-             },
-        });
-    Interface.Slider({
-            param : "detune",
-            name : "detune",
-            parent : $("#Sliders"),
-            tone : player,
-            min : -1200,
-            max : 1200,
-        });
-    Interface.Slider({
-            param : "grainSize",
-            name : "grainSize",
-            parent : $("#Sliders"),
-            tone : player,
-            min : 0.01,
-            max : 0.2,
-        });
-    Interface.Slider({
-            param : "overlap",
-            name : "overlap",
-            parent : $("#Sliders"),
-            tone : player,
-            min : 0,
-            max : 0.2,
-        });
-document.documentElement.addEventListener(
-  "mousedown", function(){
-    mouse_IsDown = true;
-    if (Tone.context.state !== 'running') {
-    Tone.context.resume();
-  }});
-
-function outputUpdate(value) {
-  var output = document.querySelector("#volume");
-  output.value = value;
-  output.style.top = value + 'px';
-}
-</script>
+  </script>
 </body>
 </html>
