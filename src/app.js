@@ -6,3 +6,12 @@ import samplerSynth from './sampler'
 window.droneSynth = droneSynth
 window.granularSynth = granularSynth
 window.samplerSynth = samplerSynth
+
+document.documentElement.addEventListener(
+  "mousedown",
+  function () {
+    if (Tone.context.state !== 'running') {
+      Tone.context.resume();
+    }
+  }
+)

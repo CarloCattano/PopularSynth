@@ -142,11 +142,6 @@ export default () => {
           min : 0,
           max : 0.2,
       });
-  document.documentElement.addEventListener(
-  "mousedown", function(){
-  if (Tone.context.state !== 'running') {
-  Tone.context.resume();
-  }});
 
   function outputUpdate(value) {
   var output = document.querySelector("#volume");

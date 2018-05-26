@@ -141,10 +141,4 @@ export default () => {
           delay.delayTime.rampTo(value, 0.8);
       },
   });
-
-  document.documentElement.addEventListener(
-    "mousedown", function(){
-      if (Tone.context.state !== 'running') {
-      Tone.context.resume();
-    }});
 }

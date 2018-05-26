@@ -175,11 +175,4 @@ export default () => {
           lfo2range();
       },
   });
-
-  /// IMPORTANT to ensure audio context initialization on laptop and desktop computers
-  document.documentElement.addEventListener(
-  "mousedown", function(){
-  if (Tone.context.state !== 'running') {
-  Tone.context.resume();
-  }});
 }
