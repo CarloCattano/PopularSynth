@@ -6,6 +6,11 @@ function roleFromCurrentUrl () {
 }
 
 export default () => {
+  function lfo2range(){
+    lfo2.min = Math.abs(cutoffPos - lfo2Range);
+    lfo2.max = cutoffPos + lfo2Range;
+  }
+
   var playTeam = roleFromCurrentUrl();
   var myId;
   var cutoffPos = 500;
@@ -170,12 +175,6 @@ export default () => {
           lfo2range();
       },
   });
-  function lfo2range(){
-          lfo2.min = Math.abs(cutoffPos - lfo2Range);
-          lfo2.max = cutoffPos + lfo2Range;
-         // console.log(cutoffPos + " hz " + lfo2.min+" min" + lfo2.max + " max");
-      }
-
 
   /// IMPORTANT to ensure audio context initialization on laptop and desktop computers
   document.documentElement.addEventListener(
