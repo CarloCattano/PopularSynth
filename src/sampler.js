@@ -32,7 +32,6 @@ export default () => {
   Sampler.volume.value = -20;
 
   // GUI //
-  Interface.Loader();
   Interface.Button({
           text : "Start",
           activeText : "",
