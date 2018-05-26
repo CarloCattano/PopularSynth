@@ -1,13 +1,13 @@
 import Tone from 'tone'
 
-import A1 from '../public/audio/Sampler/1.mp3'
-import B1 from '../public/audio/Sampler/2.mp3'
-import C2 from '../public/audio/Sampler/3.mp3'
-import D2 from '../public/audio/Sampler/4.mp3'
-import E2 from '../public/audio/Sampler/5.mp3'
-import F2 from '../public/audio/Sampler/6.mp3'
-import G2 from '../public/audio/Sampler/7.mp3'
-import A2 from '../public/audio/Sampler/8.mp3'
+import A1 from './1.mp3'
+import B1 from './2.mp3'
+import C2 from './3.mp3'
+import D2 from './4.mp3'
+import E2 from './5.mp3'
+import F2 from './6.mp3'
+import G2 from './7.mp3'
+import A2 from './8.mp3'
 
 export default () => {
   var cutoffPos = 500;

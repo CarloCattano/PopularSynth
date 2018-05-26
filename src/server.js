@@ -2,9 +2,9 @@ import express from 'express'
 import http from 'http'
 import path from 'path'
 
-import droneSynth from '../public/Drone_synth.html'
-import granularSynth from '../public/Granular_synth.html'
-import samplerSynth from '../public/Sampler.html'
+import droneSynth from './drone/index.html'
+import granularSynth from './granular/index.html'
+import samplerSynth from './sampler/index.html'
 
 const droneSynthPath = path.join(__dirname, droneSynth)
 const granularSynthPath = path.join(__dirname, granularSynth)

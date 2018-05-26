@@ -1,7 +1,7 @@
 import Tone from 'tone'
 window.Tone = Tone
 
-import amb1Url from '../public/audio/amb1.mp3'
+import amb1Url from './amb1.mp3'
 
 export default () => {
   var cutoffPos = 500;
@@ -19,7 +19,6 @@ export default () => {
   lfo2.connect(filter1.frequency);
   Tone.context.latencyHint = "playback";  // "balanced" "playback" "interactive"
 
-  Interface.Loader();
   Interface.Slider({
       parent : $("#FXsliders"),
       tone: filter1,
@@ -93,7 +92,6 @@ export default () => {
 
   player.volume.value = -18;
       // GUI //
-  Interface.Loader();
   Interface.Button({
           text :"play" ,
           activeText :"stop" ,
