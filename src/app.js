@@ -5,7 +5,22 @@ import samplerSynth from './sampler'
 // TODO There is probably a better, more Webpack-ish way to expose entry points
 window.droneSynth = droneSynth
 window.granularSynth = granularSynth
-window.samplerSynth = samplerSynth
+
+const synths = [{
+  re: /\/sampler$/,
+  build: samplerSynth
+}]
+window.loadSynthFromUrl = url => {
+  synths.find(synth => {
+    const match = synth.re.exec(url)
+    if (match) {
+      debugger
+      synth.build(match.groups)
+      return true
+    }
+    return false
+  })
+}
 
 document.documentElement.addEventListener(
   "mousedown",

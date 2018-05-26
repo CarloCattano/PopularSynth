@@ -1,7 +1,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Sonic Vibrations</title>
+  <title>Popular Synth</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <script src="/jquery.min.js"></script>
   <script src="/draggabilly.js"></script>
@@ -11,15 +11,13 @@
 </head>
 <body>
   <div id="Content" class="FullScreen">
-    <div id="Title">Sonic Code Sea</div>
-    <div id="Explanation"> Granular</div>
-    <div id="Sliders"></div>
-    <div id="Sliders2"></div>
+    <div id="Title"></div>
+    <div id="Explanation"></div>
   </div>
   <script>
     window.onload = () => {
       window.Interface = Interface
-      samplerSynth()
+      loadSynthFromUrl(window.location.href)
     }
   </script>
 </body>

@@ -32,10 +32,19 @@ export default () => {
   Sampler.volume.value = -20;
 
   // GUI //
+
+  $('#Title').text('Sonic Code Sea')
+  $('#Explanation').text('Sampler')
+
+  const sliders = document.createElement("div")
+  const sliders2 = document.createElement("div")
+  $('#Content').append(sliders)
+  $('#Content').append(sliders2)
+
   Interface.Button({
           text : "Start",
           activeText : "",
-          parent : $("#Sliders"),
+          parent : sliders,
           type : "moment",
           start : function(){
               Sampler.triggerAttack("A1");
@@ -47,7 +56,7 @@ export default () => {
   Interface.Button({
           text : "Start",
           activeText : "Stop",
-          parent : $("#Sliders"),
+          parent : sliders,
           type : "moment",
           start : function(){
               Sampler.triggerAttack("B1");
@@ -59,7 +68,7 @@ export default () => {
   Interface.Button({
           text : "Start",
           activeText : "Stop",
-          parent : $("#Sliders"),
+          parent : sliders,
           type : "moment",
           start : function(){
               Sampler.triggerAttackRelease("C2",0.25);
@@ -68,7 +77,7 @@ export default () => {
   Interface.Button({
           text : "Start",
           activeText : "Stop",
-          parent : $("#Sliders"),
+          parent : sliders,
           type : "moment",
           start : function(){
               Sampler.triggerAttackRelease("D2",0.25);
@@ -78,7 +87,7 @@ export default () => {
   Interface.Button({
           text : "Start",
           activeText : "Stop",
-          parent : $("#Sliders2"),
+          parent : sliders2,
           type : "moment",
           start : function(){
               Sampler.triggerAttackRelease("E2",0.25);
@@ -87,7 +96,7 @@ export default () => {
   Interface.Button({
           text : "Start",
           activeText : "Stop",
-          parent : $("#Sliders2"),
+          parent : sliders2,
           type : "moment",
           start : function(){
               Sampler.triggerAttackRelease("F2",0.25);
@@ -96,7 +105,7 @@ export default () => {
   Interface.Button({
           text : "Start",
           activeText : "Stop",
-          parent : $("#Sliders2"),
+          parent : sliders2,
           type : "moment",
           start : function(){
               Sampler.triggerAttackRelease("G2",0.25);
@@ -105,7 +114,7 @@ export default () => {
   Interface.Button({
           text : "Start",
           activeText : "Stop",
-          parent : $("#Sliders2"),
+          parent : sliders2,
           type : "moment",
           start : function(){
               Sampler.triggerAttackRelease("A2",0.25);
@@ -114,7 +123,7 @@ export default () => {
   Interface.Slider({
           param : "frequency",
           name : "Filter",
-          parent : $("#Sliders"),
+          parent : sliders,
           tone : filter1,
           value : cutoffPos,
           min : 120,
@@ -124,7 +133,7 @@ export default () => {
   Interface.Slider({
           param : "feedback",
           name : "feedback",
-          parent : $("#Sliders"),
+          parent : sliders,
           tone : delay,
           value : 0,
           min : 0,
@@ -132,7 +141,7 @@ export default () => {
       });
   Interface.Slider({
           name : "delayTime",
-          parent : $("#Sliders"),
+          parent : sliders,
           value : 0,
           min : 0.01,
           max : 1.5,
