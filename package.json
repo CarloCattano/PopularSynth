@@ -1,0 +1,35 @@
+{
+  "name": "PopularSynth",
+  "version": "0.0.1",
+  "description": "Multi user Web synthesis experience.",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "build": "webpack --mode production",
+    "start": "node dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CarloCattano/PopularSynth.git"
+  },
+  "keywords": [],
+  "author": "Carlo Cattano <cattanoaudioproduction@gmail.com> (https://github.com/CarloCattano)",
+  "contributors": [
+    "Charles Flèche <charles.fleche@free.fr> (https://charlesfleche.net)"
+  ],
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/CarloCattano/PopularSynth/issues"
+  },
+  "homepage": "https://github.com/CarloCattano/PopularSynth#readme",
+  "devDependencies": {
+    "file-loader": "^1.1.11",
+    "webpack": "^4.9.1",
+    "webpack-command": "^0.2.0",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
