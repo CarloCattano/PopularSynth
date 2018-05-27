@@ -8,7 +8,10 @@ Uses Tone.js, an incredible library that if you dont know and you are into Web A
 
 From a terminal with npm & node.js 9.+:
 
-1. Change the lines of the code where the IP must be setted to the server IP (looking for a dinamic solution for this)
-2. `$ npm install socket.io http express --save`
-3. `$ node server.js` 
-4. From a web browser on the same network, access the server IP from the url bar. Example: 192.168.0.6
+```
+$ npm install
+$ npm run build
+$ npm start
+```
+
+Then, from a web browser on the same network, access the server IP from the url bar. Example: http://192.168.0.6
