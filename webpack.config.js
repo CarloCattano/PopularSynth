@@ -34,6 +34,7 @@ module.exports = [{
       'assets/vendors/draggabilly.js',
       'assets/vendors/Interface.js',
       'assets/vendors/jquery.min.js',
+      'assets/vendors/StartAudioContext.js',
       'assets/images/favicon.png',
       'src/examples.css'
     ])
