@@ -36,7 +36,7 @@ export default () => {
       tone: filter1,
       param: "frequency",
       axis: "x",
-      initial: 10,
+      initial: 500,
       min: 60,
       max: 20000,
       exp: 5,
@@ -102,7 +102,7 @@ export default () => {
           "overlap" : 0.05,
       }).connect(delay);
 
-  player.volume.value = -18;
+  player.volume.value = -8; // Higher volume optimized for mobile.
       // GUI //
   Interface.Button({
           text :"play" ,

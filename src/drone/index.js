@@ -12,7 +12,6 @@ export default (role) => {
   var oscillators = [];
   var bassFreq = 32;
   //// AUDIO MASTER
-  // var filter2 = new Tone.Filter(1, "lowpass", -24).toMaster();
   var filter1 = new Tone.Filter(1, "lowpass", -24).toMaster();
   var reverb =  new Tone.JCReverb(0.8).connect(filter1);
   var vibrato = new Tone.Vibrato(0, 0.8).connect(reverb);
@@ -112,7 +111,7 @@ export default (role) => {
   });
   Interface.Slider({
       param: "frequency",
-      name: "AM",
+      name: "FX",
       tone: vibrato,
       axis: "x",
       min: 0,
@@ -121,7 +120,7 @@ export default (role) => {
       initial: 0,
       drag: function (value) {
           vibrato.depth.value = value / 15;
-          delay.delayTime.rampTo(value / 15, 0.5);
+          //delay.delayTime.rampTo(value / 15, 0.5); /// CAUSES CLICKS ON MOBILE
           delay.feedback.rampTo(value / 15 - 0.1, 0.5);
       },
   });
@@ -131,7 +130,7 @@ export default (role) => {
       type: "toggle",
       start: function () {
           oscillators.forEach(function (osc) {
-              osc.volume.rampTo(-28, 0.25);
+              osc.volume.rampTo(-28, 0.05); //Fast start test
           });
       },
       end: function () {

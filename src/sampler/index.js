@@ -144,7 +144,7 @@ export default () => {
           parent : sliders,
           value : 0,
           min : 0.01,
-          max : 1.5,
+          max : 1.0,
           drag: function (value) {
           delay.delayTime.rampTo(value, 0.8);
       },
