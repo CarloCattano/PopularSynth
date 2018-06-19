@@ -36,7 +36,7 @@ export default () => {
       tone: filter1,
       param: "frequency",
       axis: "x",
-      initial: 500,
+      initial: 15000,
       min: 60,
       max: 20000,
       exp: 5,
@@ -50,7 +50,7 @@ export default () => {
       tone: delay,
       param: "feedback",
       axis: "x",
-      initial: 0,
+      initial: 0.4,
       min: 0,
       max: 0.97,
   });
@@ -102,7 +102,7 @@ export default () => {
           "overlap" : 0.05,
       }).connect(delay);
 
-  player.volume.value = -8; // Higher volume optimized for mobile.
+  player.volume.value = -2; // Higher volume optimized for mobile.
       // GUI //
   Interface.Button({
           text :"play" ,
