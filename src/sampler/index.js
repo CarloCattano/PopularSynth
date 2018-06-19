@@ -70,18 +70,24 @@ export default () => {
           activeText : "Stop",
           parent : sliders,
           type : "moment",
-          start : function(){
-              Sampler.triggerAttackRelease("C2",0.25);
+           start : function(){
+              Sampler.triggerAttack("C1");
           },
+          end : function(){
+               Sampler.triggerRelease("C1");
+          }
       });
   Interface.Button({
           text : "Start",
           activeText : "Stop",
           parent : sliders,
           type : "moment",
-          start : function(){
-              Sampler.triggerAttackRelease("D2",0.25);
+                 start : function(){
+              Sampler.triggerAttack("D2");
           },
+          end : function(){
+               Sampler.triggerRelease("D2");
+          }
       });
   /////SLIDERS 2
   Interface.Button({
@@ -89,18 +95,24 @@ export default () => {
           activeText : "Stop",
           parent : sliders2,
           type : "moment",
-          start : function(){
-              Sampler.triggerAttackRelease("E2",0.25);
+           start : function(){
+              Sampler.triggerAttack("E2");
           },
+          end : function(){
+               Sampler.triggerRelease("E2");
+          }
       });
   Interface.Button({
           text : "Start",
           activeText : "Stop",
           parent : sliders2,
           type : "moment",
-          start : function(){
-              Sampler.triggerAttackRelease("F2",0.25);
+           start : function(){
+              Sampler.triggerAttack("F2");
           },
+          end : function(){
+               Sampler.triggerRelease("F2");
+          }
       });
   Interface.Button({
           text : "Start",
@@ -116,9 +128,12 @@ export default () => {
           activeText : "Stop",
           parent : sliders2,
           type : "moment",
-          start : function(){
-              Sampler.triggerAttackRelease("A2",0.25);
+           start : function(){
+              Sampler.triggerAttack("A2");
           },
+          end : function(){
+               Sampler.triggerRelease("A2");
+          }
       });
   Interface.Slider({
           param : "frequency",

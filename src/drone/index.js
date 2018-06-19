@@ -6,13 +6,15 @@ export default (role) => {
     lfo2.max = cutoffPos + lfo2Range;
   }
 
+  var TRANSITION = 0.03;
+
   var playTeam = /(sin|saw|square)/.exec(role) ? role : 'sin';
   var myId;
   var cutoffPos = 500;
   var oscillators = [];
   var bassFreq = 32;
   //// AUDIO MASTER
-  var filter1 = new Tone.Filter(1, "lowpass", -24).toMaster();
+  var filter1 = new Tone.Filter(1000, "lowpass", -24).toMaster();
   var reverb =  new Tone.JCReverb(0.8).connect(filter1);
   var vibrato = new Tone.Vibrato(0, 0.8).connect(reverb);
   var delay =   new Tone.FeedbackDelay(0.200, 0.6).connect(vibrato);
@@ -78,33 +80,34 @@ export default (role) => {
           switch (playTeam) {
               case 'sin':
               oscillators.forEach(function (osc, i) {
-                  osc.frequency.rampTo(4 * (bassFreq * i * value), 0.2);
+                  osc.frequency.rampTo(4 * (bassFreq * i * value), TRANSITION);
               });
                break;
 
           case 'saw':
               oscillators.forEach(function (osc, i) {
-                  osc.frequency.rampTo(bassFreq * i * value, 0.2);
+                  osc.frequency.rampTo(bassFreq * i * value, TRANSITION);
               });
               break;
 
            case 'square':
               oscillators.forEach(function (osc, i) {
-                  osc.frequency.rampTo(2 * (bassFreq * i * value), 0.2);
+                  osc.frequency.rampTo(2 * (bassFreq * i * value), TRANSITION);
               });
               break;
           }
       }
   });
   Interface.Slider({
-      tone: filter1,
-      param: "frequency",
-      axis: "x",
-      initial: 200,
+      //tone: filter1,
+      //param: "frequency",
+      name: "filter",
       min: 10,
       max: 20000,
-      exp: 3,
+      exp: 5,
+      // use rampTo to smooth the change
       drag: function (value) {
+          filter1.frequency.rampTo(value, 0.03);
           cutoffPos = filter1.frequency.value;
            lfo2range();
       },

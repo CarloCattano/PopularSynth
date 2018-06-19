@@ -6,13 +6,15 @@ import amb1Url from './amb1.mp3'
 export default () => {
   var cutoffPos = 500;
   //// AUDIO MASTER
-  var filter1 = new Tone.Filter(500, "lowpass", -24).toMaster();
+  var filter1 = new Tone.Filter(1000, "lowpass", -24).toMaster();
   var reverb = new Tone.JCReverb(0.5).connect(filter1);
   var delay = new Tone.FeedbackDelay(0.25, 0).connect(reverb);
   //// FX PARAMS
   filter1.Q.value = 0.3;
   filter1.gain.value = 0.35;
   reverb.wet.value = 0.5;
+
+console.log("initial freq :"+ filter1.frequency.value);
 
   var lfo2Range = 500;
   var lfo2 = new Tone.LFO("4hz", cutoffPos, lfo2Range).stop();
@@ -36,12 +38,13 @@ export default () => {
       tone: filter1,
       param: "frequency",
       axis: "x",
-      initial: 15000,
       min: 60,
       max: 20000,
       exp: 5,
       drag: function (value) {
            lfo2range();
+           console.log(value);
+           
       },
   });
   Interface.Slider({
