@@ -1,8 +1,11 @@
-import express from 'express'
-import http from 'http'
-import path from 'path'
+const express = require('express')
+const http = require('http')
+const path = require('path')
 
-import synthTemplate from './index.html'
+// import synthTemplate from './index.html' // eslint-disable-line
+const synthTemplate = require('./index.html')
+
+
 
 const synthUrl = path.join(__dirname, synthTemplate)
 
